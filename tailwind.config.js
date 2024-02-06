@@ -6,9 +6,10 @@ export default {
       colors: {
         firstColor: "#6001d2",
         secondColor: "#b1a8b9",
-        thirdColor: "#bb0000",
-        fourthColor: "#bea6a0",
-        fifthColor: "#4c4452",
+        thirdColor: "#e00202",
+        fourthColor: "#bb0000",
+        fifthColor: "#bea6a0",
+        sixthColor: "#4c4452",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
