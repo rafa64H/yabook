@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
+import RedBtn from "./ui/redBtn";
+import SelectInput from "./ui/selectInput";
+import monthsAndDays from "../utils/monthsAndDaysOptions";
 
 function SignUpForm() {
+  const [monthState, setMonthState] = useState(0);
+
+  const monthRef = useRef<HTMLSelectElement>(null);
+  const dayRef = useRef<HTMLSelectElement>(null);
+
   return (
     <form action="">
       <FormInputText
@@ -27,9 +35,19 @@ function SignUpForm() {
         id="confirm-password"
       ></FormInputPassword>
 
-      <button className="bg-thirdColor px-8 py-4 font-bold text-white transition-all duration-200 hover:bg-fourthColor hover:bg-secondColor">
-        Sign up
-      </button>
+      <SelectInput
+        id="day"
+        textLabel="Day"
+        optionsProp={monthsAndDays[0].days}
+        refProp={dayRef}
+      ></SelectInput>
+      <SelectInput
+        id="month"
+        textLabel="Month"
+        optionsProp={monthsAndDays.map((monthAndDay) => monthAndDay.month)}
+        refProp={monthRef}
+      ></SelectInput>
+      <RedBtn textBtn="Sign up"></RedBtn>
     </form>
   );
 }
