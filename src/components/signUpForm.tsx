@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
@@ -6,11 +6,20 @@ import SelectInput from "./ui/selectInput";
 import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
 
 function SignUpForm() {
-  const [monthState, setMonthState] = useState(0);
+  const [monthState, setMonthState] = useState("1");
 
   const genderRef = useRef<HTMLSelectElement>(null);
-  const monthRef = useRef<HTMLSelectElement>(null);
   const dayRef = useRef<HTMLSelectElement>(null);
+  const monthRef = useRef<HTMLSelectElement>(null);
+  const yearRef = useRef<HTMLSelectElement>(null);
+
+  const handleChange = (value: string) => {
+    setMonthState(value);
+  };
+
+  // useEffect(() => {
+  //   handleChange(1);
+  // }, []);
 
   return (
     <>
@@ -41,7 +50,7 @@ function SignUpForm() {
           id="confirm-password"
         ></FormInputPassword>
 
-        <h2 className="my-2 text-2xl font-semibold">Gender date:</h2>
+        <h2 className="my-2 text-2xl font-semibold">Gender:</h2>
 
         <SelectInput
           id="gender"
@@ -56,7 +65,9 @@ function SignUpForm() {
           <SelectInput
             id="day"
             textLabel="Day: "
-            optionsProp={monthsAndDays[0].days}
+            optionsProp={
+              monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
+            }
             refProp={dayRef}
           ></SelectInput>
           <SelectInput
@@ -64,12 +75,14 @@ function SignUpForm() {
             textLabel="Month: "
             optionsProp={monthsAndDays.map((monthAndDay) => monthAndDay.month)}
             refProp={monthRef}
+            functionProp={handleChange}
+            stateProp={monthState}
           ></SelectInput>
           <SelectInput
             id="year"
             textLabel="Year: "
             optionsProp={years}
-            refProp={monthRef}
+            refProp={yearRef}
           ></SelectInput>
         </div>
 

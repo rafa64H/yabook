@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { RefObject } from "react";
 
@@ -7,11 +7,15 @@ function SelectInput({
   id,
   textLabel,
   refProp,
+  stateProp,
+  functionProp,
 }: {
   optionsProp: string[] | number[];
   id: string;
   textLabel: string;
   refProp: RefObject<HTMLSelectElement>;
+  stateProp?: string;
+  functionProp?: Function;
 }) {
   return (
     <div className="mx-2">
@@ -21,8 +25,14 @@ function SelectInput({
 
       <select
         id={id}
-        ref={refProp}
         className="bg-white p-1 font-inter font-medium"
+        onChange={(e) => {
+          if (functionProp) {
+            functionProp(e.target.value);
+          }
+        }}
+        ref={refProp}
+        value={stateProp}
       >
         {optionsProp.map((option) => {
           return (

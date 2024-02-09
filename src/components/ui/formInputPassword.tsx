@@ -18,7 +18,11 @@ function FormInputPassword({
         type="password"
         name={name}
         id={id}
-        className="block w-[90%] max-w-[45rem] py-1 font-inter"
+        data-error-input="false"
+        className="block w-[90%] max-w-[45rem] py-1 font-inter data-[error-input=true]:border-2 data-[error-input=true]:border-red-500"
+        onFocus={(e) => {
+          e.target.setAttribute("data-error-input", "false");
+        }}
       />
     </div>
   );
