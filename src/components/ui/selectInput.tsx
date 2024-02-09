@@ -14,10 +14,16 @@ function SelectInput({
   refProp: RefObject<HTMLSelectElement>;
 }) {
   return (
-    <div>
-      <label htmlFor={id}>{textLabel}</label>
+    <div className="mx-2">
+      <label className=" font-robotoSlab text-xl font-semibold" htmlFor={id}>
+        {textLabel}
+      </label>
 
-      <select id={id} ref={refProp}>
+      <select
+        id={id}
+        ref={refProp}
+        className="bg-white p-1 font-inter font-medium"
+      >
         {optionsProp.map((option) => {
           return (
             <option key={uuidv4()} value={option}>
