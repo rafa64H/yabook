@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebaseInit";
+import { auth, db, storage } from "../firebaseInit";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export async function signUpWithEmailAndPassword(
   firstName: string,
@@ -51,6 +52,17 @@ export async function createUserDataFirestore(
   try {
     const newDocumentRef = doc(db, "users", uid);
 
+    const anonymousProfilePictureRef = ref(
+      storage,
+      "profilePictures/withoutProfilePicture/no-image.webp",
+    );
+
+    let profilePictureUrl = "";
+
+    await getDownloadURL(anonymousProfilePictureRef).then((url) => {
+      profilePictureUrl = url;
+    });
+
     const newDocumentData = {
       privateInformation: {
         uid: uid,
@@ -64,6 +76,7 @@ export async function createUserDataFirestore(
         birthDay: birthDay,
         birthMonth: birthMonth,
         birthYear: birthYear,
+        profilePictureUrl: profilePictureUrl,
       },
     };
 
