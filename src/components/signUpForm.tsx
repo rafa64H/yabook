@@ -1,13 +1,23 @@
 import React, { useRef, useState, useEffect } from "react";
+import type { FormEvent } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
 import SelectInput from "./ui/selectInput";
 import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
+import {
+  createUserDataFirestore,
+  signUpWithEmailAndPassword,
+} from "../services/firebase/utils/signUpWithEmailAndPassword";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
 
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
   const dayRef = useRef<HTMLSelectElement>(null);
   const monthRef = useRef<HTMLSelectElement>(null);
@@ -21,33 +31,76 @@ function SignUpForm() {
   //   handleChange(1);
   // }, []);
 
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const firstName = firstNameRef.current?.value;
+    const lastName = lastNameRef.current?.value;
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+    const gender = genderRef.current?.value;
+    const day = dayRef.current?.value;
+    const month = monthRef.current?.value;
+    const year = yearRef.current?.value;
+
+    console.log(email, password, gender, day, month, year);
+
+    await signUpWithEmailAndPassword(
+      firstName!,
+      lastName!,
+      email!,
+      password!,
+      gender!,
+      day!,
+      month!,
+      year!,
+    );
+  }
+
   return (
     <>
       <h1 className="text-center font-robotoSlab text-5xl font-bold">
         Sign up
       </h1>
 
-      <form action="" className="mx-auto my-2 w-[70%] max-w-[45rem]">
+      <form
+        action=""
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+        className="mx-auto my-2 w-[70%] max-w-[45rem]"
+      >
         <FormInputText
           textLabel="First name"
           name="firstName"
           id="first-name"
+          refProp={firstNameRef}
         ></FormInputText>
 
         <FormInputText
           textLabel="Last name"
-          name="firstName"
+          name="lastName"
           id="first-name"
+          refProp={lastNameRef}
         ></FormInputText>
+
+        <FormInputText
+          textLabel="Email"
+          name="email"
+          id="email"
+          refProp={emailRef}
+        ></FormInputText>
+
         <FormInputPassword
           textLabel="Password"
           name="password"
           id="password"
+          refProp={passwordRef}
         ></FormInputPassword>
         <FormInputPassword
           textLabel="Confirm password"
           name="confirmPassword"
           id="confirm-password"
+          refProp={confirmPasswordRef}
         ></FormInputPassword>
 
         <h2 className="my-2 text-2xl font-semibold">Gender:</h2>

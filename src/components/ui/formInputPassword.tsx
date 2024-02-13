@@ -1,13 +1,16 @@
 import React from "react";
+import type { RefObject } from "react";
 
 function FormInputPassword({
   textLabel,
   name,
   id,
+  refProp,
 }: {
   textLabel: string;
   name: string;
   id: string;
+  refProp?: RefObject<HTMLInputElement>;
 }) {
   return (
     <div className="my-3">
@@ -18,6 +21,7 @@ function FormInputPassword({
         type="password"
         name={name}
         id={id}
+        ref={refProp}
         data-error-input="false"
         className="block w-[90%] max-w-[45rem] py-1 font-inter data-[error-input=true]:border-2 data-[error-input=true]:border-red-500"
         onFocus={(e) => {
