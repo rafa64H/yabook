@@ -9,6 +9,7 @@ import {
   createUserDataFirestore,
   signUpWithEmailAndPassword,
 } from "../services/firebase/utils/signUpWithEmailAndPassword";
+import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/signInWithEmailAndPassword";
 
 function SignInForm() {
   const [monthState, setMonthState] = useState("1");
@@ -23,8 +24,9 @@ function SignInForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
+    const emailElement = emailRef.current;
+    const passwordElement = passwordRef.current;
+    const confirmPasswordElement = confirmPasswordRef.current;
   }
 
   return (
@@ -58,7 +60,7 @@ function SignInForm() {
           refProp={confirmPasswordRef}
         ></FormInputPassword>
 
-        <RedBtn textBtn="Sign in"></RedBtn>
+        <RedBtn typeButton="submit" textBtn="Sign in"></RedBtn>
       </form>
     </>
   );

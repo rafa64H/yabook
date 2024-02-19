@@ -9,6 +9,7 @@ import {
   createUserDataFirestore,
   signUpWithEmailAndPassword,
 } from "../services/firebase/utils/signUpWithEmailAndPassword";
+import FormInputEmail from "./ui/formInputEmail";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
@@ -33,27 +34,79 @@ function SignUpForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const firstName = firstNameRef.current?.value;
-    const lastName = lastNameRef.current?.value;
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    const gender = genderRef.current?.value;
-    const day = dayRef.current?.value;
-    const month = monthRef.current?.value;
-    const year = yearRef.current?.value;
+    const firstNameElement = firstNameRef.current;
+    const lastNameElement = lastNameRef.current;
+    const emailElement = emailRef.current;
+    const passwordElement = passwordRef.current;
+    const confirmPasswordElement = confirmPasswordRef.current;
+    const genderElement = genderRef.current;
+    const dayElement = dayRef.current;
+    const monthElement = monthRef.current;
+    const yearElement = yearRef.current;
 
-    console.log(email, password, gender, day, month, year);
+    const allElements = [
+      firstNameElement,
+      lastNameElement,
+      emailElement,
+      passwordElement,
+      confirmPasswordElement,
+      genderElement,
+      dayElement,
+      monthElement,
+      yearElement,
+    ];
 
-    await signUpWithEmailAndPassword(
-      firstName!,
-      lastName!,
-      email!,
-      password!,
-      gender!,
-      day!,
-      month!,
-      year!,
+    if (allElements.some((element) => element === null)) {
+      return null;
+    }
+    if (
+      allElements.some(
+        (element) => element!.value === "" || element!.value === null,
+      )
+    ) {
+      allElements.map((element) => {
+        if (element!.value === "" || element!.value === null) {
+          element!.setAttribute("data-error-input", "true");
+        }
+      });
+      return null;
+    }
+
+    if (passwordElement!.value !== confirmPasswordElement!.value) {
+      passwordElement!.setAttribute("data-error-input", "true");
+      confirmPasswordElement!.setAttribute("data-error-input", "true");
+      return null;
+    }
+
+    console.log(
+      emailElement!.value,
+      passwordElement!.value,
+      genderElement!.value,
+      dayElement!.value,
+      monthElement!.value,
+      yearElement!.value,
     );
+
+    const signUp = await signUpWithEmailAndPassword(
+      firstNameElement!.value,
+      lastNameElement!.value,
+      emailElement!.value,
+      passwordElement!.value,
+      genderElement!.value,
+      dayElement!.value,
+      monthElement!.value,
+      yearElement!.value,
+    );
+
+    if (signUp === "auth/email-already-in-use") {
+      emailElement!.setAttribute("data-error-input", "true");
+      return null;
+    }
+    if (signUp === "auth/weak-password") {
+      passwordElement!.setAttribute("data-error-input", "true");
+      confirmPasswordElement!.setAttribute("data-error-input", "true");
+      return null;
+    }
   }
 
   return (
@@ -83,12 +136,12 @@ function SignUpForm() {
           refProp={lastNameRef}
         ></FormInputText>
 
-        <FormInputText
+        <FormInputEmail
           textLabel="Email"
           name="email"
           id="email"
           refProp={emailRef}
-        ></FormInputText>
+        ></FormInputEmail>
 
         <FormInputPassword
           textLabel="Password"
@@ -139,7 +192,7 @@ function SignUpForm() {
           ></SelectInput>
         </div>
 
-        <RedBtn textBtn="Sign up"></RedBtn>
+        <RedBtn typeButton="submit" textBtn="Sign up"></RedBtn>
       </form>
     </>
   );

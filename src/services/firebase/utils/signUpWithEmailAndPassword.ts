@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebaseInit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import type { User } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref } from "firebase/storage";
 
 export async function signUpWithEmailAndPassword(
@@ -15,14 +16,17 @@ export async function signUpWithEmailAndPassword(
 ) {
   try {
     let uid = "";
+    let userObject: User | null = null;
 
     await createUserWithEmailAndPassword(auth, email, password).then(
       (userCredential) => {
         uid = userCredential.user.uid;
+        userObject = userCredential.user;
       },
     );
 
     await createUserDataFirestore(
+      userObject!,
       uid,
       firstName,
       lastName,
@@ -34,11 +38,12 @@ export async function signUpWithEmailAndPassword(
       birthYear,
     );
   } catch (err) {
-    console.log(err);
+    return err.code;
   }
 }
 
 export async function createUserDataFirestore(
+  user: User,
   uid: string,
   firstName: string,
   lastName: string,
@@ -76,9 +81,13 @@ export async function createUserDataFirestore(
         birthDay: birthDay,
         birthMonth: birthMonth,
         birthYear: birthYear,
-        profilePictureUrl: profilePictureUrl,
       },
     };
+
+    await updateProfile(user, {
+      photoURL: profilePictureUrl,
+      displayName: `${firstName} ${lastName}`,
+    });
 
     await setDoc(newDocumentRef, newDocumentData);
 

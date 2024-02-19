@@ -25,7 +25,7 @@ function SelectInput({
 
       <select
         id={id}
-        className="bg-white p-1 font-inter font-medium"
+        className="rounded-md border-2 border-black p-1 font-inter font-medium shadow-xl"
         onChange={(e) => {
           if (functionProp) {
             functionProp(e.target.value);

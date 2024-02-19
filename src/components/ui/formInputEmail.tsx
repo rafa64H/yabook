@@ -8,18 +8,18 @@ type props = {
   refProp?: RefObject<HTMLInputElement>;
 };
 
-function FormInputText({ textLabel, name, id, refProp }: props) {
+function FormInputEmail({ textLabel, name, id, refProp }: props) {
   return (
     <div className="my-3">
       <label className="font-robotoSlab text-2xl font-semibold" htmlFor={id}>
         {textLabel}
       </label>
       <input
-        type="text"
+        type="email"
         name={name}
         id={id}
-        data-error-input="false"
         ref={refProp}
+        data-error-input="false"
         className="block w-[90%] max-w-[45rem] rounded-md border-2 border-black font-inter shadow-lg data-[error-input=true]:border-2 data-[error-input=true]:border-red-500"
         onFocus={(e) => {
           e.target.setAttribute("data-error-input", "false");
@@ -29,4 +29,4 @@ function FormInputText({ textLabel, name, id, refProp }: props) {
   );
 }
 
-export default FormInputText;
+export default FormInputEmail;

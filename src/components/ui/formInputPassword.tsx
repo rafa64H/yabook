@@ -1,17 +1,14 @@
 import React from "react";
 import type { RefObject } from "react";
 
-function FormInputPassword({
-  textLabel,
-  name,
-  id,
-  refProp,
-}: {
+type props = {
   textLabel: string;
   name: string;
   id: string;
   refProp?: RefObject<HTMLInputElement>;
-}) {
+};
+
+function FormInputPassword({ textLabel, name, id, refProp }: props) {
   return (
     <div className="my-3">
       <label className="font-robotoSlab text-2xl font-semibold" htmlFor={id}>
@@ -23,7 +20,7 @@ function FormInputPassword({
         id={id}
         ref={refProp}
         data-error-input="false"
-        className="block w-[90%] max-w-[45rem] py-1 font-inter data-[error-input=true]:border-2 data-[error-input=true]:border-red-500"
+        className="block w-[90%] max-w-[45rem] rounded-md border-2 border-black font-inter shadow-lg data-[error-input=true]:border-2 data-[error-input=true]:border-red-500"
         onFocus={(e) => {
           e.target.setAttribute("data-error-input", "false");
         }}
