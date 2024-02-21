@@ -196,6 +196,9 @@ function SignUpForm() {
           id="gender"
           textLabel=""
           optionsProp={["Male", "Female"]}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
           refProp={genderRef}
         ></SelectInput>
 
@@ -205,6 +208,9 @@ function SignUpForm() {
           <SelectInput
             id="day"
             textLabel="Day: "
+            onFocusAdditionalFunction={() => {
+              setAlertMessage("");
+            }}
             optionsProp={
               monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
             }
@@ -214,6 +220,9 @@ function SignUpForm() {
             id="month"
             textLabel="Month: "
             optionsProp={monthsAndDays.map((monthAndDay) => monthAndDay.month)}
+            onFocusAdditionalFunction={() => {
+              setAlertMessage("");
+            }}
             refProp={monthRef}
             functionProp={handleChange}
             stateProp={monthState}
@@ -221,6 +230,9 @@ function SignUpForm() {
           <SelectInput
             id="year"
             textLabel="Year: "
+            onFocusAdditionalFunction={() => {
+              setAlertMessage("");
+            }}
             optionsProp={years}
             refProp={yearRef}
           ></SelectInput>

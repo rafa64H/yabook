@@ -2,21 +2,25 @@ import React, { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { RefObject } from "react";
 
+type props = {
+  optionsProp: string[] | number[];
+  id: string;
+  textLabel: string;
+  onFocusAdditionalFunction?: Function;
+  refProp: RefObject<HTMLSelectElement>;
+  stateProp?: string;
+  functionProp?: Function;
+};
+
 function SelectInput({
   optionsProp,
   id,
   textLabel,
+  onFocusAdditionalFunction,
   refProp,
   stateProp,
   functionProp,
-}: {
-  optionsProp: string[] | number[];
-  id: string;
-  textLabel: string;
-  refProp: RefObject<HTMLSelectElement>;
-  stateProp?: string;
-  functionProp?: Function;
-}) {
+}: props) {
   return (
     <div className="mx-2">
       <label className=" font-robotoSlab text-xl font-semibold" htmlFor={id}>
@@ -30,6 +34,10 @@ function SelectInput({
           if (functionProp) {
             functionProp(e.target.value);
           }
+        }}
+        onFocus={() => {
+          if (typeof onFocusAdditionalFunction === "function")
+            onFocusAdditionalFunction();
         }}
         ref={refProp}
         value={stateProp}
