@@ -13,6 +13,7 @@ import FormInputEmail from "./ui/formInputEmail";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -64,17 +65,29 @@ function SignUpForm() {
         (element) => element!.value === "" || element!.value === null,
       )
     ) {
-      allElements.map((element) => {
-        if (element!.value === "" || element!.value === null) {
-          element!.setAttribute("data-error-input", "true");
-        }
-      });
+      const allEmptyInputsString = allElements.reduce(
+        (accString, element, index) => {
+          if (element!.value === "" || element!.value === null) {
+            element!.setAttribute("data-error-input", "true");
+            accString =
+              index === 0
+                ? accString + ` ${element!.getAttribute("data-text-label")}`
+                : accString + `, ${element!.getAttribute("data-text-label")}`;
+          }
+          return accString;
+        },
+        `The following inputs are empty: `,
+      );
+
+      setAlertMessage(allEmptyInputsString);
+
       return null;
     }
 
     if (passwordElement!.value !== confirmPasswordElement!.value) {
       passwordElement!.setAttribute("data-error-input", "true");
       confirmPasswordElement!.setAttribute("data-error-input", "true");
+      setAlertMessage("Passwords do not match");
       return null;
     }
 
@@ -100,11 +113,13 @@ function SignUpForm() {
 
     if (signUp === "auth/email-already-in-use") {
       emailElement!.setAttribute("data-error-input", "true");
+      setAlertMessage("Email already in use");
       return null;
     }
     if (signUp === "auth/weak-password") {
       passwordElement!.setAttribute("data-error-input", "true");
       confirmPasswordElement!.setAttribute("data-error-input", "true");
+      setAlertMessage("Password too weak, must have a length of 6 characters");
       return null;
     }
   }
@@ -114,6 +129,10 @@ function SignUpForm() {
       <h1 className="text-center font-robotoSlab text-5xl font-bold">
         Sign up
       </h1>
+
+      <aside className="mt-5 text-center font-inter text-red-500">
+        {alertMessage}
+      </aside>
 
       <form
         action=""
@@ -127,6 +146,9 @@ function SignUpForm() {
           name="firstName"
           id="first-name"
           refProp={firstNameRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputText>
 
         <FormInputText
@@ -134,6 +156,9 @@ function SignUpForm() {
           name="lastName"
           id="first-name"
           refProp={lastNameRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputText>
 
         <FormInputEmail
@@ -141,6 +166,9 @@ function SignUpForm() {
           name="email"
           id="email"
           refProp={emailRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputEmail>
 
         <FormInputPassword
@@ -148,12 +176,18 @@ function SignUpForm() {
           name="password"
           id="password"
           refProp={passwordRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputPassword>
         <FormInputPassword
           textLabel="Confirm password"
           name="confirmPassword"
           id="confirm-password"
           refProp={confirmPasswordRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputPassword>
 
         <h2 className="my-2 text-2xl font-semibold">Gender:</h2>

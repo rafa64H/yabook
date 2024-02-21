@@ -3,35 +3,59 @@ import type { FormEvent } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
-import SelectInput from "./ui/selectInput";
-import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
-import {
-  createUserDataFirestore,
-  signUpWithEmailAndPassword,
-} from "../services/firebase/utils/signUpWithEmailAndPassword";
 import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/signInWithEmailAndPassword";
+import FormInputEmail from "./ui/formInputEmail";
 
 function SignInForm() {
-  const [monthState, setMonthState] = useState("1");
+  const [alertMessage, setAlertMessage] = useState("");
 
-  const emailRef = useRef<HTMLSelectElement>(null);
-  const passwordRef = useRef<HTMLSelectElement>(null);
-  const confirmPasswordRef = useRef<HTMLSelectElement>(null);
-
-  const handleChange = (value: string) => {
-    setMonthState(value);
-  };
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const emailElement = emailRef.current;
     const passwordElement = passwordRef.current;
-    const confirmPasswordElement = confirmPasswordRef.current;
+
+    const allElements = [emailElement, passwordElement];
+
+    if (allElements.some((element) => element === null)) {
+      return null;
+    }
+    if (
+      allElements.some(
+        (element) => element!.value === "" || element!.value === null,
+      )
+    ) {
+      allElements.map((element) => {
+        if (element!.value === "" || element!.value === null) {
+          setAlertMessage("Wrong email or password");
+          element!.setAttribute("data-error-input", "true");
+        }
+      });
+      return null;
+    }
+
+    const signIn = await signInWithEmailAndPasswordFunction(
+      emailElement!.value,
+      passwordElement!.value,
+    );
+
+    if (signIn === "auth/invalid-credential") {
+      emailElement!.setAttribute("data-error-input", "true");
+      passwordElement!.setAttribute("data-error-input", "true");
+      setAlertMessage("Wrong email or password");
+      return null;
+    }
   }
 
   return (
     <>
       <h1 className="text-center font-robotoSlab text-5xl font-bold">Login</h1>
+
+      <aside className="mt-5 text-center font-inter text-red-500">
+        {alertMessage}
+      </aside>
 
       <form
         action=""
@@ -40,24 +64,24 @@ function SignInForm() {
         }}
         className="mx-auto my-2 w-[70%] max-w-[45rem]"
       >
-        <FormInputText
+        <FormInputEmail
           textLabel="Email"
           name="email"
           id="email"
           refProp={emailRef}
-        ></FormInputText>
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
+        ></FormInputEmail>
 
         <FormInputPassword
           textLabel="Password"
           name="password"
           id="password"
           refProp={passwordRef}
-        ></FormInputPassword>
-        <FormInputPassword
-          textLabel="Confirm password"
-          name="confirmPassword"
-          id="confirm-password"
-          refProp={confirmPasswordRef}
+          onFocusAdditionalFunction={() => {
+            setAlertMessage("");
+          }}
         ></FormInputPassword>
 
         <RedBtn typeButton="submit" textBtn="Sign in"></RedBtn>
