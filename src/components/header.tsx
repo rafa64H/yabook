@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebase/firebaseInit";
 import { initialState, setUser } from "../services/redux/auth/authSlice";
+import NavBarProfileLink from "./ui/navBarProfileLink";
 
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
@@ -76,6 +77,8 @@ function Header() {
                 }
               }}
             ></NavBarItem>
+            <NavBarProfileLink></NavBarProfileLink>
+
             <li className="my-2">
               <SearchBar></SearchBar>
             </li>
