@@ -122,6 +122,7 @@ function SignUpForm() {
       setAlertMessage("Password too weak, must have a length of 6 characters");
       return null;
     }
+    window.location.href = "./index.html";
   }
 
   return (

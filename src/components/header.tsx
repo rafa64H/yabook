@@ -10,6 +10,7 @@ import { initialState, setUser } from "../services/redux/auth/authSlice";
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
   const dispatch = useAppDispatch();
+  const [navState, setNavState] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -18,11 +19,19 @@ function Header() {
         const { uid, displayName, email, photoURL } = user;
         const userObjRedux = { uid, displayName, email, photoURL };
         dispatch(setUser(userObjRedux));
+        const pathname = window.location.pathname;
+        if (pathname === "/sign-up.html" || pathname === "/login.html") {
+          window.location.href = "./index.html";
+        }
+      } else {
+        const pathname = window.location.pathname;
+        if (pathname !== "/sign-up.html" && pathname !== "/login.html") {
+          window.location.href = "./sign-up.html";
+        }
       }
     });
   }, []);
 
-  const [navState, setNavState] = useState(false);
   return (
     <header className=" text-white ">
       <div className=" flex items-center justify-between bg-firstColor px-5 py-10">

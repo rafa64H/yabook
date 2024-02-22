@@ -47,6 +47,8 @@ function SignInForm() {
       setAlertMessage("Wrong email or password");
       return null;
     }
+
+    window.location.href = "./index.html";
   }
 
   return (
