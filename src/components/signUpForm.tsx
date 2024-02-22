@@ -239,6 +239,15 @@ function SignUpForm() {
         </div>
 
         <RedBtn typeButton="submit" textBtn="Sign up"></RedBtn>
+
+        <p>
+          <a
+            href="./login.html"
+            className="font-inter text-lg  hover:underline"
+          >
+            Already have an account? Sign in
+          </a>
+        </p>
       </form>
     </>
   );

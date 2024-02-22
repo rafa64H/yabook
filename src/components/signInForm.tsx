@@ -85,6 +85,24 @@ function SignInForm() {
         ></FormInputPassword>
 
         <RedBtn typeButton="submit" textBtn="Sign in"></RedBtn>
+
+        <p>
+          <a
+            href="./sign-up.html"
+            className="font-inter text-lg  hover:underline"
+          >
+            Forgot password? Recover password
+          </a>
+        </p>
+
+        <p>
+          <a
+            href="./sign-up.html"
+            className="font-inter text-lg  hover:underline"
+          >
+            Not having account? Register
+          </a>
+        </p>
       </form>
     </>
   );
