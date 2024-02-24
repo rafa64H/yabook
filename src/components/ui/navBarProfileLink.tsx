@@ -6,7 +6,7 @@ function NavBarProfileLink() {
   const dispatch = useAppDispatch();
 
   return (
-    <a href="#" className="min- inline-block">
+    <a href={`./profile.html?uid=${user.uid}`} className="min- inline-block">
       <img
         className="max-w-16 rounded-full border-2 border-transparent transition-all duration-100 hover:border-thirdColor"
         src={user.photoURL}

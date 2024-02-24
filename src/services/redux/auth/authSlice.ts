@@ -6,6 +6,13 @@ type UserRedux = {
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
+  firestoreData: {
+    gender: string | null;
+    backgroundImageUrl: string | null;
+    birthday: string | null;
+    birthMonth: string | null;
+    birthYear: string | null;
+  };
 };
 
 interface AuthState {
@@ -18,6 +25,13 @@ export const initialState: AuthState = {
     email: null,
     displayName: null,
     photoURL: null,
+    firestoreData: {
+      gender: null,
+      backgroundImageUrl: null,
+      birthday: null,
+      birthMonth: null,
+      birthYear: null,
+    },
   },
 };
 

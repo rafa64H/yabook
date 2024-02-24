@@ -7,6 +7,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebase/firebaseInit";
 import { initialState, setUser } from "../services/redux/auth/authSlice";
 import NavBarProfileLink from "./ui/navBarProfileLink";
+import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
 
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
@@ -14,14 +15,22 @@ function Header() {
   const [navState, setNavState] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log("hola");
         const { uid, displayName, email, photoURL } = user;
-        const userObjRedux = { uid, displayName, email, photoURL };
+
+        const firestoreData = await getPublicInformationOfUser(user.uid);
+        const userObjRedux = {
+          uid,
+          displayName,
+          email,
+          photoURL,
+          firestoreData: firestoreData,
+        };
+
         dispatch(setUser(userObjRedux));
         const pathname = window.location.pathname;
-        if (pathname === "/sign-up.html" || pathname === "/login.html") {
+        if (pathname === "/login.html") {
           window.location.href = "./index.html";
         }
       } else {

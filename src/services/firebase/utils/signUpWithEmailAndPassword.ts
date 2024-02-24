@@ -38,6 +38,7 @@ export async function signUpWithEmailAndPassword(
       birthYear,
     );
   } catch (err) {
+    console.log(err);
     return err.code;
   }
 }
@@ -68,15 +69,28 @@ export async function createUserDataFirestore(
       profilePictureUrl = url;
     });
 
+    const withoutBackgroundImageRef = ref(
+      storage,
+      "backgroundImages/withoutBackgroundImage/no-background-image.jpg",
+    );
+
+    let backgroundImageUrl = "";
+
+    await getDownloadURL(withoutBackgroundImageRef).then((url) => {
+      backgroundImageUrl = url;
+    });
+
     const newDocumentData = {
       privateInformation: {
-        uid: uid,
         password: password,
       },
       publicInformation: {
+        uid: uid,
         firstName: firstName,
         lastName: lastName,
         email: email,
+        photoUrl: profilePictureUrl,
+        backgroundImageUrl: backgroundImageUrl,
         gender: gender,
         birthDay: birthDay,
         birthMonth: birthMonth,

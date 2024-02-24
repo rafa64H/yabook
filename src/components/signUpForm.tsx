@@ -29,10 +29,6 @@ function SignUpForm() {
     setMonthState(value);
   };
 
-  // useEffect(() => {
-  //   handleChange(1);
-  // }, []);
-
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const firstNameElement = firstNameRef.current;
@@ -122,7 +118,9 @@ function SignUpForm() {
       setAlertMessage("Password too weak, must have a length of 6 characters");
       return null;
     }
-    window.location.href = "./index.html";
+
+    setTimeout(() => {}, 3000);
+    // window.location.href = "./index.html";
   }
 
   return (
