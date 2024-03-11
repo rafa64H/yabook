@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import type { FormEvent } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
@@ -10,10 +9,18 @@ import {
   signUpWithEmailAndPassword,
 } from "../services/firebase/utils/signUpWithEmailAndPassword";
 import FormInputEmail from "./ui/formInputEmail";
+import { useAppDispatch } from "../hooks/hooks";
+import { onAuthStateChanged } from "firebase/auth";
+import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
+import { auth } from "../services/firebase/firebaseInit";
+import { setUser } from "../services/redux/auth/authSlice";
+import type { FormEvent } from "react";
+import type { firestoreData } from "../services/redux/auth/authSlice";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
   const [alertMessage, setAlertMessage] = useState("");
+  const dispatch = useAppDispatch();
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -119,8 +126,25 @@ function SignUpForm() {
       return null;
     }
 
-    setTimeout(() => {}, 3000);
-    // window.location.href = "./index.html";
+    const user = signUp;
+    const { uid, displayName, email, photoURL } = user;
+
+    const firestoreData = await getPublicInformationOfUser(user.uid);
+
+    if (!firestoreData) {
+      console.log("Error getting public information of user");
+      return;
+    }
+    const userObjRedux = {
+      uid,
+      displayName,
+      email,
+      photoURL,
+      firestoreData: firestoreData,
+    };
+
+    dispatch(setUser(userObjRedux));
+    window.location.href = "./index.html";
   }
 
   return (

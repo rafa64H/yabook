@@ -20,6 +20,10 @@ function Header() {
         const { uid, displayName, email, photoURL } = user;
 
         const firestoreData = await getPublicInformationOfUser(user.uid);
+
+        if (!firestoreData) {
+          return;
+        }
         const userObjRedux = {
           uid,
           displayName,
@@ -30,7 +34,7 @@ function Header() {
 
         dispatch(setUser(userObjRedux));
         const pathname = window.location.pathname;
-        if (pathname === "/login.html") {
+        if (pathname === "/login.html" || pathname === "/sign-up.html") {
           window.location.href = "./index.html";
         }
       } else {

@@ -1,18 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type UserRedux = {
+export type firestoreData = {
+  uid: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  photoUrl: string | null;
+  backgroundImageUrl: string | null;
+  gender: string | null;
+  birthDay: string | null;
+  birthMonth: string | null;
+  birthYear: string | null;
+};
+
+export type UserRedux = {
   uid: string | null;
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  firestoreData: {
-    gender: string | null;
-    backgroundImageUrl: string | null;
-    birthday: string | null;
-    birthMonth: string | null;
-    birthYear: string | null;
-  };
+  firestoreData: firestoreData;
 };
 
 interface AuthState {
@@ -26,9 +33,14 @@ export const initialState: AuthState = {
     displayName: null,
     photoURL: null,
     firestoreData: {
-      gender: null,
+      uid: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      photoUrl: null,
       backgroundImageUrl: null,
-      birthday: null,
+      gender: null,
+      birthDay: null,
       birthMonth: null,
       birthYear: null,
     },

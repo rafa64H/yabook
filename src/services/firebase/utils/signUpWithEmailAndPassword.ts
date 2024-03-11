@@ -37,6 +37,7 @@ export async function signUpWithEmailAndPassword(
       birthMonth,
       birthYear,
     );
+    return userObject;
   } catch (err) {
     console.log(err);
     return err.code;
@@ -56,7 +57,21 @@ export async function createUserDataFirestore(
   birthYear: string,
 ) {
   try {
-    const newDocumentRef = doc(db, "users", uid);
+    const newDocumentPrivateInformationRef = doc(
+      db,
+      "users",
+      uid,
+      "information",
+      "privateInformation",
+    );
+
+    const newDocumentPublicInformationRef = doc(
+      db,
+      "users",
+      uid,
+      "information",
+      "publicInformation",
+    );
 
     const anonymousProfilePictureRef = ref(
       storage,
@@ -80,10 +95,14 @@ export async function createUserDataFirestore(
       backgroundImageUrl = url;
     });
 
-    const newDocumentData = {
+    const newDocumentPrivateData = {
       privateInformation: {
+        uid: uid,
         password: password,
       },
+    };
+
+    const newDocumentPublicData = {
       publicInformation: {
         uid: uid,
         firstName: firstName,
@@ -103,7 +122,8 @@ export async function createUserDataFirestore(
       displayName: `${firstName} ${lastName}`,
     });
 
-    await setDoc(newDocumentRef, newDocumentData);
+    await setDoc(newDocumentPrivateInformationRef, newDocumentPrivateData);
+    await setDoc(newDocumentPublicInformationRef, newDocumentPublicData);
 
     console.log("updated");
   } catch (err) {
