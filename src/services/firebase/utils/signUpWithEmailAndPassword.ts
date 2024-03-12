@@ -73,6 +73,22 @@ export async function createUserDataFirestore(
       "publicInformation",
     );
 
+    const newDocumentPostsRef = doc(
+      db,
+      "users",
+      uid,
+      "posts",
+      "createdPostsCollection",
+    );
+
+    const newDocumentCommentsRef = doc(
+      db,
+      "users",
+      uid,
+      "comments",
+      "createdPostsCollection",
+    );
+
     const anonymousProfilePictureRef = ref(
       storage,
       "profilePictures/withoutProfilePicture/no-image.webp",
@@ -124,6 +140,8 @@ export async function createUserDataFirestore(
 
     await setDoc(newDocumentPrivateInformationRef, newDocumentPrivateData);
     await setDoc(newDocumentPublicInformationRef, newDocumentPublicData);
+    await setDoc(newDocumentPostsRef, {});
+    await setDoc(newDocumentCommentsRef, {});
 
     console.log("updated");
   } catch (err) {
