@@ -36,6 +36,9 @@ function ProfileInfo() {
                 {user.firestoreData.birthDay} of {user.firestoreData.birthYear}
               </p>
             </div>
+            <a href="./account-settings.html" className="ml-auto">
+              <i className="fa-solid fa-cog"></i>
+            </a>
           </div>
         </div>
       </section>
