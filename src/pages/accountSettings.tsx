@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "../services/redux/store";
 import { useAppSelector } from "../hooks/hooks";
 import LoadingWholePage from "../components/loadingWholePage";
+import SettingsAccount from "../components/settingsAccount";
 const Page = () => {
   const user = useAppSelector((store) => store.auth.user);
 
@@ -20,6 +21,7 @@ const Page = () => {
   return (
     <>
       <Header></Header>
+      <SettingsAccount></SettingsAccount>
     </>
   );
 };
