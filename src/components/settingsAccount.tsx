@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import type { FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import FormInputPassword from "./ui/formInputPassword";
 import TransparentBtn from "./ui/transparentBtn";
 import RedBtn from "./ui/redBtn";
@@ -14,9 +14,16 @@ function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
   const dispatch = useAppDispatch();
 
-  const [selectedOption, setSelectedOption] = useState(1);
+  const [editImage, setEditImage] = useState(user.photoURL);
+  const [editBackgroundImage, setEditBackgroundImage] = useState(
+    user.firestoreData.backgroundImageUrl,
+  );
+  const [selectedOptionSettings, setSelectedOptionSettings] = useState(1);
   const [alertMessage, setAlertMessage] = useState("");
   const [monthState, setMonthState] = useState("1");
+
+  const editImageRef = useRef<HTMLInputElement>(null);
+  const editBackgroundImageRef = useRef<HTMLInputElement>(null);
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -42,6 +49,24 @@ function SettingsAccount() {
     setMonthState(value);
   };
 
+  const handleChangeEditImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const url = URL.createObjectURL(e.target.files[0]);
+      console.log(url);
+      setEditImage(url);
+    }
+  };
+
+  const handleChangeEditBackgroundImage = (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (e.target.files && e.target.files[0]) {
+      const url = URL.createObjectURL(e.target.files[0]);
+      console.log(url);
+      setEditBackgroundImage(url);
+    }
+  };
+
   return (
     <section>
       <h1 className="my-2 text-center text-3xl font-bold text-firstColor">
@@ -51,35 +76,35 @@ function SettingsAccount() {
         <ul className="text-xl">
           <li
             onClick={() => {
-              setSelectedOption(1);
+              setSelectedOptionSettings(1);
             }}
           >
             <TransparentBtn
               textBtn="Change password"
               typeButton="button"
-              selected={selectedOption === 1 ? true : false}
+              selected={selectedOptionSettings === 1 ? true : false}
             ></TransparentBtn>
           </li>
           <li
             onClick={() => {
-              setSelectedOption(2);
+              setSelectedOptionSettings(2);
             }}
           >
             <TransparentBtn
               textBtn="Account information"
               typeButton="button"
-              selected={selectedOption === 2 ? true : false}
+              selected={selectedOptionSettings === 2 ? true : false}
             ></TransparentBtn>
           </li>
           <li
             onClick={() => {
-              setSelectedOption(3);
+              setSelectedOptionSettings(3);
             }}
           >
             <TransparentBtn
               textBtn="Privacy settings"
               typeButton="button"
-              selected={selectedOption === 3 ? true : false}
+              selected={selectedOptionSettings === 3 ? true : false}
             ></TransparentBtn>
           </li>
         </ul>
@@ -89,7 +114,7 @@ function SettingsAccount() {
             onSubmit={(e) => {
               handleSubmitChangePassword(e);
             }}
-            className={`${selectedOption === 1 ? "block" : "hidden"}`}
+            className={`${selectedOptionSettings === 1 ? "block" : "hidden"}`}
           >
             <FormInputPassword
               textLabel="Password"
@@ -113,11 +138,61 @@ function SettingsAccount() {
           </form>
 
           <form
-            onSubmit={(e) => {
-              handleSubmitChangePassword(e);
-            }}
-            className={`${selectedOption === 2 ? "block" : "hidden"}`}
+            onSubmit={(e) => {}}
+            className={`${selectedOptionSettings === 2 ? "block" : "hidden"}`}
           >
+            <h3 className="my-2  text-xl font-bold text-firstColor">
+              Profile picture:
+            </h3>
+
+            <button
+              type="button"
+              aria-label="Edit profile picture"
+              className="relative block min-w-[15%] max-w-[10rem]"
+              onClick={() => editImageRef.current!.click()}
+            >
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                ref={editImageRef}
+                onChange={(e) => handleChangeEditImage(e)}
+              />
+              <div className="absolute h-full w-full bg-black opacity-0 transition-all duration-200 hover:opacity-40">
+                <i className="fa-solid fa-pencil absolute text-center text-xl text-white"></i>
+              </div>
+
+              <img className="object-cover" src={`${editImage}`} alt="" />
+            </button>
+
+            <h3 className="my-2  text-xl font-bold text-firstColor">
+              Background image:
+            </h3>
+
+            <button
+              type="button"
+              aria-label="Edit background image"
+              className="relative block min-w-[25%] max-w-[30rem]"
+              onClick={() => editBackgroundImageRef.current!.click()}
+            >
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                ref={editBackgroundImageRef}
+                onChange={(e) => handleChangeEditBackgroundImage(e)}
+              />
+              <div className="absolute h-full w-full bg-black opacity-0 transition-all duration-200 hover:opacity-40">
+                <i className="fa-solid fa-pencil absolute text-center text-xl text-white"></i>
+              </div>
+
+              <img
+                className="object-cover"
+                src={`${editBackgroundImage}`}
+                alt=""
+              />
+            </button>
+
             <FormInputText
               textLabel="First name"
               name="firstName"
@@ -150,6 +225,9 @@ function SettingsAccount() {
 
             <h2 className="my-2 text-2xl font-semibold">Gender:</h2>
 
+            <h2 className="my-2 text-xl font-semibold">
+              Current set gender is "{user.firestoreData.gender}"
+            </h2>
             <SelectInput
               id="gender"
               textLabel=""
@@ -161,19 +239,12 @@ function SettingsAccount() {
             ></SelectInput>
 
             <h2 className="my-2 text-2xl font-semibold">Birth date:</h2>
+            <h2 className="my-2 text-xl font-semibold">
+              Current set birth date is "{user.firestoreData.birthMonth}/
+              {user.firestoreData.birthDay}/{user.firestoreData.birthYear}"
+            </h2>
 
             <div className="mb-7 flex items-center">
-              <SelectInput
-                id="day"
-                textLabel="Day: "
-                onFocusAdditionalFunction={() => {
-                  setAlertMessage("");
-                }}
-                optionsProp={
-                  monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
-                }
-                refProp={dayRef}
-              ></SelectInput>
               <SelectInput
                 id="month"
                 textLabel="Month: "
@@ -186,6 +257,17 @@ function SettingsAccount() {
                 refProp={monthRef}
                 functionProp={handleChange}
                 stateProp={monthState}
+              ></SelectInput>
+              <SelectInput
+                id="day"
+                textLabel="Day: "
+                onFocusAdditionalFunction={() => {
+                  setAlertMessage("");
+                }}
+                optionsProp={
+                  monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
+                }
+                refProp={dayRef}
               ></SelectInput>
               <SelectInput
                 id="year"
@@ -202,25 +284,29 @@ function SettingsAccount() {
           </form>
 
           <form
-            onSubmit={(e) => {
-              handleSubmitChangePassword(e);
-            }}
-            className={`${selectedOption === 3 ? "block" : "hidden"}`}
+            onSubmit={(e) => {}}
+            className={`${selectedOptionSettings === 3 ? "block" : "hidden"}`}
           >
             <section className=" w-full max-w-[40rem] text-lg">
               <InputRadioBtns
                 title="Gender:"
                 options={["Public", "Friends only", "Private"]}
                 name="gender"
-                values={["public", "friendsOnly", "private"]}
+                values={["publicGender", "friendsOnlyGender", "privateGender"]}
               ></InputRadioBtns>
 
               <InputRadioBtns
                 title="Birth date:"
                 options={["Public", "Friends only", "Private"]}
-                name="Birth date"
-                values={["public", "friendsOnly", "private"]}
+                name="birthDate"
+                values={[
+                  "publicBirthDate",
+                  "friendsOnlyBirthDate",
+                  "privateBirthDate",
+                ]}
               ></InputRadioBtns>
+
+              <RedBtn textBtn="Change privacy" typeButton="submit"></RedBtn>
             </section>
           </form>
         </section>
