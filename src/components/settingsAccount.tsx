@@ -148,7 +148,7 @@ function SettingsAccount() {
             <button
               type="button"
               aria-label="Edit profile picture"
-              className="relative block min-w-[15%] max-w-[10rem]"
+              className="relative block min-w-[15%] max-w-24"
               onClick={() => editImageRef.current!.click()}
             >
               <input
@@ -162,7 +162,7 @@ function SettingsAccount() {
                 <i className="fa-solid fa-pencil absolute text-center text-xl text-white"></i>
               </div>
 
-              <img className="object-cover" src={`${editImage}`} alt="" />
+              <img className=" object-cover" src={`${editImage}`} alt="" />
             </button>
 
             <h3 className="my-2  text-xl font-bold text-firstColor">
@@ -172,7 +172,7 @@ function SettingsAccount() {
             <button
               type="button"
               aria-label="Edit background image"
-              className="relative block min-w-[25%] max-w-[30rem]"
+              className="relative block max-h-80 min-w-[25%] max-w-[30rem] overflow-hidden"
               onClick={() => editBackgroundImageRef.current!.click()}
             >
               <input
@@ -187,7 +187,7 @@ function SettingsAccount() {
               </div>
 
               <img
-                className="object-cover"
+                className="w-full object-cover"
                 src={`${editBackgroundImage}`}
                 alt=""
               />
