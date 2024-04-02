@@ -6,8 +6,17 @@ type props = {
   values: string[]; //for the "value" attribute on an element with Option
   name: string;
   title: string;
+  onClickFunction?: Function;
+  valueForChecked?: string;
 };
-function InputRadioBtns({ options, name, values, title }: props) {
+function InputRadioBtns({
+  options,
+  name,
+  values,
+  title,
+  onClickFunction,
+  valueForChecked,
+}: props) {
   return (
     <section className="flex flex-wrap justify-between">
       <h3 className="font-medium">{title}</h3>
@@ -20,6 +29,10 @@ function InputRadioBtns({ options, name, values, title }: props) {
                 name={name}
                 id={values[i]}
                 value={values[i]}
+                onClick={(e) => {
+                  if (onClickFunction) onClickFunction(e);
+                }}
+                defaultChecked={valueForChecked === values[i]}
               />
               <label className="ml-2" htmlFor={values[i]}>
                 {option}

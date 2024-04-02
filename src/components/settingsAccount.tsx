@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type { ChangeEvent, FormEvent } from "react";
 import FormInputPassword from "./ui/formInputPassword";
@@ -38,8 +39,24 @@ function SettingsAccount() {
   const newPasswordRef = useRef<HTMLInputElement>(null);
   const newPasswordConfirmRef = useRef<HTMLInputElement>(null);
 
+  const genderPrivacyRef = useRef<HTMLInputElement>(null);
+  const birthDatePrivacyRef = useRef<HTMLInputElement>(null);
+
   const url = new URL(window.location.href);
   const uid = url.searchParams.get("uid");
+
+  useEffect(() => {
+    console.log(
+      genderPrivacyRef.current!.value,
+      birthDatePrivacyRef.current!.value,
+    );
+  });
+
+  useEffect(() => {
+    firstNameRef.current!.value = `${user.firestoreData.firstName}`;
+    lastNameRef.current!.value = `${user.firestoreData.lastName}`;
+    emailRef.current!.value = `${user.email}`;
+  }, []);
 
   async function handleSubmitChangePassword(e: FormEvent) {
     e.preventDefault();
@@ -65,6 +82,16 @@ function SettingsAccount() {
       console.log(url);
       setEditBackgroundImage(url);
     }
+  };
+
+  const changePrivacyGender = (e: React.MouseEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    genderPrivacyRef.current!.value = target.value;
+  };
+
+  const changePrivacyBirthDate = (e: React.MouseEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    birthDatePrivacyRef.current!.value = target.value;
   };
 
   return (
@@ -293,6 +320,8 @@ function SettingsAccount() {
                 options={["Public", "Friends only", "Private"]}
                 name="gender"
                 values={["publicGender", "friendsOnlyGender", "privateGender"]}
+                onClickFunction={changePrivacyGender}
+                valueForChecked={genderPrivacyRef.current?.value}
               ></InputRadioBtns>
 
               <InputRadioBtns
@@ -304,7 +333,14 @@ function SettingsAccount() {
                   "friendsOnlyBirthDate",
                   "privateBirthDate",
                 ]}
+                onClickFunction={changePrivacyBirthDate}
+                valueForChecked={birthDatePrivacyRef.current?.value}
               ></InputRadioBtns>
+
+              <div className="hidden">
+                <input type="text" ref={genderPrivacyRef}></input>
+                <input type="text" ref={birthDatePrivacyRef}></input>
+              </div>
 
               <RedBtn textBtn="Change privacy" typeButton="submit"></RedBtn>
             </section>
