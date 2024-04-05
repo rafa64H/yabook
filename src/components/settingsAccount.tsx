@@ -56,6 +56,26 @@ function SettingsAccount() {
     firstNameRef.current!.value = `${user.firestoreData.firstName}`;
     lastNameRef.current!.value = `${user.firestoreData.lastName}`;
     emailRef.current!.value = `${user.email}`;
+
+    if (user.firestoreData.gender !== null) {
+      genderPrivacyRef.current!.value = "publicGender";
+    }
+    if (user.firestoreFriendsOnlyData.gender !== null) {
+      genderPrivacyRef.current!.value = "friendsOnlyGender";
+    }
+    if (user.firestorePrivateData.gender !== null) {
+      genderPrivacyRef.current!.value = "privateGender";
+    }
+
+    if (user.firestoreData.birthDay !== null) {
+      birthDatePrivacyRef.current!.value = "publicBirthDate";
+    }
+    if (user.firestoreFriendsOnlyData.birthDay !== null) {
+      birthDatePrivacyRef.current!.value = "friendsOnlyBirthDate";
+    }
+    if (user.firestorePrivateData.birthDay !== null) {
+      birthDatePrivacyRef.current!.value = "privateBirthDate";
+    }
   }, []);
 
   async function handleSubmitChangePassword(e: FormEvent) {

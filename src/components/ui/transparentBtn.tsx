@@ -6,7 +6,6 @@ type props = {
   selected?: boolean;
 };
 function TransparentBtn({ textBtn, typeButton, selected }: props) {
-  console.log(selected);
   return (
     <button
       type={`${typeButton ? typeButton : "button"}`}

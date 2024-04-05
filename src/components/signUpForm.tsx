@@ -16,6 +16,8 @@ import { auth } from "../services/firebase/firebaseInit";
 import { setUser } from "../services/redux/auth/authSlice";
 import type { FormEvent } from "react";
 import type { firestoreData } from "../services/redux/auth/authSlice";
+import { getPrivateInformationOfUser } from "../services/firebase/utils/getPrivateInfoUser";
+import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/getFriendsOnlyInfoUser";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
@@ -130,9 +132,21 @@ function SignUpForm() {
     const { uid, displayName, email, photoURL } = user;
 
     const firestoreData = await getPublicInformationOfUser(user.uid);
+    const firestoreFriendsOnlyData = await getFriendsOnlyInformationOfUser(
+      user.uid,
+    );
+    const firestorePrivateData = await getPrivateInformationOfUser(user.uid);
 
     if (!firestoreData) {
       console.log("Error getting public information of user");
+      return;
+    }
+    if (!firestorePrivateData) {
+      console.log("Error getting private information of user");
+      return;
+    }
+    if (!firestoreFriendsOnlyData) {
+      console.log("Error getting friends only information of user");
       return;
     }
     const userObjRedux = {
@@ -141,6 +155,8 @@ function SignUpForm() {
       email,
       photoURL,
       firestoreData: firestoreData,
+      firestoreFriendsOnlyData: firestoreFriendsOnlyData,
+      firestorePrivateData: firestorePrivateData,
     };
 
     dispatch(setUser(userObjRedux));
@@ -229,17 +245,6 @@ function SignUpForm() {
 
         <div className="mb-7 flex items-center">
           <SelectInput
-            id="day"
-            textLabel="Day: "
-            onFocusAdditionalFunction={() => {
-              setAlertMessage("");
-            }}
-            optionsProp={
-              monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
-            }
-            refProp={dayRef}
-          ></SelectInput>
-          <SelectInput
             id="month"
             textLabel="Month: "
             optionsProp={monthsAndDays.map((monthAndDay) => monthAndDay.month)}
@@ -249,6 +254,17 @@ function SignUpForm() {
             refProp={monthRef}
             functionProp={handleChange}
             stateProp={monthState}
+          ></SelectInput>
+          <SelectInput
+            id="day"
+            textLabel="Day: "
+            onFocusAdditionalFunction={() => {
+              setAlertMessage("");
+            }}
+            optionsProp={
+              monthsAndDays[monthState ? Number(monthState) - 1 : 0].days
+            }
+            refProp={dayRef}
           ></SelectInput>
           <SelectInput
             id="year"

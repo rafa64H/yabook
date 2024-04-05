@@ -65,6 +65,14 @@ export async function createUserDataFirestore(
       "privateInformation",
     );
 
+    const newDocumentFriendsOnlyInformationRef = doc(
+      db,
+      "users",
+      uid,
+      "information",
+      "friendsOnlyInformation",
+    );
+
     const newDocumentPublicInformationRef = doc(
       db,
       "users",
@@ -115,6 +123,21 @@ export async function createUserDataFirestore(
       privateInformation: {
         uid: uid,
         password: password,
+        gender: null,
+        birthDay: null,
+        birthMonth: null,
+        birthYear: null,
+      },
+    };
+
+    const newDocumentFriendsOnlyData = {
+      friendsOnlyInformation: {
+        uid: uid,
+        password: password,
+        gender: null,
+        birthDay: null,
+        birthMonth: null,
+        birthYear: null,
       },
     };
 
@@ -139,6 +162,10 @@ export async function createUserDataFirestore(
     });
 
     await setDoc(newDocumentPrivateInformationRef, newDocumentPrivateData);
+    await setDoc(
+      newDocumentFriendsOnlyInformationRef,
+      newDocumentFriendsOnlyData,
+    );
     await setDoc(newDocumentPublicInformationRef, newDocumentPublicData);
     await setDoc(newDocumentPostsRef, {});
     await setDoc(newDocumentCommentsRef, {});

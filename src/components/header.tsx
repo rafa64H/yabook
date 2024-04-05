@@ -8,6 +8,8 @@ import { auth } from "../services/firebase/firebaseInit";
 import { initialState, setUser } from "../services/redux/auth/authSlice";
 import NavBarProfileLink from "./ui/navBarProfileLink";
 import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
+import { getPrivateInformationOfUser } from "../services/firebase/utils/getPrivateInfoUser";
+import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/getFriendsOnlyInfoUser";
 
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
@@ -20,8 +22,21 @@ function Header() {
         const { uid, displayName, email, photoURL } = user;
 
         const firestoreData = await getPublicInformationOfUser(user.uid);
+        const firestorePrivateData = await getPrivateInformationOfUser(
+          user.uid,
+        );
+
+        const firestoreFriendsOnlyData = await getFriendsOnlyInformationOfUser(
+          user.uid,
+        );
 
         if (!firestoreData) {
+          return;
+        }
+        if (!firestorePrivateData) {
+          return;
+        }
+        if (!firestoreFriendsOnlyData) {
           return;
         }
         const userObjRedux = {
@@ -30,6 +45,8 @@ function Header() {
           email,
           photoURL,
           firestoreData: firestoreData,
+          firestorePrivateData: firestorePrivateData,
+          firestoreFriendsOnlyData: firestoreFriendsOnlyData,
         };
 
         dispatch(setUser(userObjRedux));
