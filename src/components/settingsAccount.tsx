@@ -10,6 +10,9 @@ import FormInputText from "./ui/formInputText";
 import FormInputEmail from "./ui/formInputEmail";
 import SelectInput from "./ui/selectInput";
 import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
+import { updatePasswordOfUser } from "../services/firebase/utils/updatePasswordOfUser";
+import { setFirestorePrivateData } from "../services/redux/auth/authSlice";
+import { reauthenticateUser } from "../services/firebase/utils/reauthenticateUser";
 
 function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
@@ -80,6 +83,46 @@ function SettingsAccount() {
 
   async function handleSubmitChangePassword(e: FormEvent) {
     e.preventDefault();
+
+    if (passwordRef.current!.value !== user.firestorePrivateData.password) {
+      setAlertMessage("Wrong curent password");
+      passwordRef.current!.setAttribute("data-error-input", "true");
+      return;
+    }
+    if (
+      newPasswordRef.current!.value !== newPasswordConfirmRef.current!.value
+    ) {
+      setAlertMessage("New passwords do not match");
+      newPasswordRef.current!.setAttribute("data-error-input", "true");
+      newPasswordConfirmRef.current!.setAttribute("data-error-input", "true");
+      return;
+    }
+    if (newPasswordRef.current!.value.length < 6) {
+      setAlertMessage(
+        "New password must have a length of at least 6 characters",
+      );
+      newPasswordRef.current!.setAttribute("data-error-input", "true");
+      newPasswordConfirmRef.current!.setAttribute("data-error-input", "true");
+      return;
+    }
+
+    try {
+      await reauthenticateUser(user.firestorePrivateData.password);
+
+      const newFirestoreDataAfterChange = await updatePasswordOfUser(
+        newPasswordRef.current!.value,
+        user.uid,
+        user.firestorePrivateData,
+      );
+
+      if (!newFirestoreDataAfterChange) {
+        throw new Error("Could not update password of user");
+      }
+
+      dispatch(setFirestorePrivateData(newFirestoreDataAfterChange));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const handleChange = (value: string) => {

@@ -10,6 +10,7 @@ import NavBarProfileLink from "./ui/navBarProfileLink";
 import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
 import { getPrivateInformationOfUser } from "../services/firebase/utils/getPrivateInfoUser";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/getFriendsOnlyInfoUser";
+import { reauthenticateUser } from "../services/firebase/utils/reauthenticateUser";
 
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
@@ -50,6 +51,9 @@ function Header() {
         };
 
         dispatch(setUser(userObjRedux));
+
+        reauthenticateUser(userObjRedux.firestorePrivateData.password!);
+
         const pathname = window.location.pathname;
         if (pathname === "/login.html" || pathname === "/sign-up.html") {
           window.location.href = "./index.html";

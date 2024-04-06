@@ -90,9 +90,15 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<UserRedux>) => {
       state.user = action.payload;
     },
+    setFirestorePrivateData: (
+      state,
+      action: PayloadAction<firestorePrivateData>,
+    ) => {
+      state.user.firestorePrivateData = action.payload;
+    },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setFirestorePrivateData } = authSlice.actions;
 
 export default authSlice.reducer;
