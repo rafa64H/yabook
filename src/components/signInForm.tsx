@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import FormInputText from "./ui/formInputText";
 import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
-import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/signInWithEmailAndPassword";
+import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/user-related/signInWithEmailAndPassword";
 import FormInputEmail from "./ui/formInputEmail";
 
 function SignInForm() {

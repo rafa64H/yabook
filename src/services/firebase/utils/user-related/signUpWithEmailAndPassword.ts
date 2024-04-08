@@ -1,5 +1,5 @@
 import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db, storage } from "../firebaseInit";
+import { auth, db, storage } from "../../firebaseInit";
 import type { User } from "firebase/auth";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref } from "firebase/storage";

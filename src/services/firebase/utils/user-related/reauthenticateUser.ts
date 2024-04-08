@@ -1,4 +1,4 @@
-import { auth } from "../firebaseInit";
+import { auth } from "../../firebaseInit";
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 
 export async function reauthenticateUser(password: string) {

@@ -10,9 +10,11 @@ import FormInputText from "./ui/formInputText";
 import FormInputEmail from "./ui/formInputEmail";
 import SelectInput from "./ui/selectInput";
 import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
-import { updatePasswordOfUser } from "../services/firebase/utils/updatePasswordOfUser";
+import { updatePasswordOfUser } from "../services/firebase/utils/user-related/updatePasswordOfUser";
 import { setFirestorePrivateData } from "../services/redux/auth/authSlice";
-import { reauthenticateUser } from "../services/firebase/utils/reauthenticateUser";
+import { reauthenticateUser } from "../services/firebase/utils/user-related/reauthenticateUser";
+import { checkGenderPrivacy } from "../utils/checkGenderPrivacy";
+import { checkBirthDatePrivacy } from "../utils/checkBirthDatePrivacy";
 
 function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
@@ -125,6 +127,31 @@ function SettingsAccount() {
     }
   }
 
+  async function handleSubmitChangeInformation(e: FormEvent) {
+    e.preventDefault();
+
+    const allInputsText = [
+      firstNameRef.current!,
+      lastNameRef.current!,
+      emailRef.current!,
+    ];
+
+    allInputsText.map((inputElement) => {
+      const isOnlySpaces = /^ *$/.test(inputElement.value);
+
+      const genderPrivacy = checkGenderPrivacy(user);
+      const birthDatePrivacy = checkBirthDatePrivacy(user);
+
+      console.log(genderPrivacy, birthDatePrivacy);
+
+      if (inputElement.value === "" || isOnlySpaces) {
+        setAlertMessage("Please don't let an empty space");
+        inputElement.setAttribute("data-error-input", "true");
+        return;
+      }
+    });
+  }
+
   const handleChange = (value: string) => {
     setMonthState(value);
   };
@@ -228,7 +255,9 @@ function SettingsAccount() {
           </form>
 
           <form
-            onSubmit={(e) => {}}
+            onSubmit={(e) => {
+              handleSubmitChangeInformation(e);
+            }}
             className={`${selectedOptionSettings === 2 ? "block" : "hidden"}`}
           >
             <h3 className="my-2  text-xl font-bold text-firstColor">

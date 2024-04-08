@@ -7,17 +7,17 @@ import { monthsAndDays, years } from "../utils/monthsAndDaysOptions";
 import {
   createUserDataFirestore,
   signUpWithEmailAndPassword,
-} from "../services/firebase/utils/signUpWithEmailAndPassword";
+} from "../services/firebase/utils/user-related/signUpWithEmailAndPassword";
 import FormInputEmail from "./ui/formInputEmail";
 import { useAppDispatch } from "../hooks/hooks";
 import { onAuthStateChanged } from "firebase/auth";
-import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
+import { getPublicInformationOfUser } from "../services/firebase/utils/user-related/getPublicInfoUser";
 import { auth } from "../services/firebase/firebaseInit";
 import { setUser } from "../services/redux/auth/authSlice";
 import type { FormEvent } from "react";
-import type { firestoreData } from "../services/redux/auth/authSlice";
-import { getPrivateInformationOfUser } from "../services/firebase/utils/getPrivateInfoUser";
-import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/getFriendsOnlyInfoUser";
+import type { firestoreData } from "../types/user-types";
+import { getPrivateInformationOfUser } from "../services/firebase/utils/user-related/getPrivateInfoUser";
+import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");

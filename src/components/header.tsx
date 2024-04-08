@@ -7,10 +7,16 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebase/firebaseInit";
 import { initialState, setUser } from "../services/redux/auth/authSlice";
 import NavBarProfileLink from "./ui/navBarProfileLink";
-import { getPublicInformationOfUser } from "../services/firebase/utils/getPublicInfoUser";
-import { getPrivateInformationOfUser } from "../services/firebase/utils/getPrivateInfoUser";
-import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/getFriendsOnlyInfoUser";
-import { reauthenticateUser } from "../services/firebase/utils/reauthenticateUser";
+import { getPublicInformationOfUser } from "../services/firebase/utils/user-related/getPublicInfoUser";
+import { getPrivateInformationOfUser } from "../services/firebase/utils/user-related/getPrivateInfoUser";
+import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
+import { reauthenticateUser } from "../services/firebase/utils/user-related/reauthenticateUser";
+import type {
+  UserRedux,
+  firestoreData,
+  firestoreFriendsOnlyData,
+  firestorePrivateData,
+} from "../types/user-types";
 
 function Header() {
   const user = useAppSelector((store) => store.auth.user);
@@ -40,14 +46,15 @@ function Header() {
         if (!firestoreFriendsOnlyData) {
           return;
         }
-        const userObjRedux = {
+        const userObjRedux: UserRedux = {
           uid,
           displayName,
           email,
           photoURL,
-          firestoreData: firestoreData,
-          firestorePrivateData: firestorePrivateData,
-          firestoreFriendsOnlyData: firestoreFriendsOnlyData,
+          firestoreData: firestoreData as firestoreData,
+          firestorePrivateData: firestorePrivateData as firestorePrivateData,
+          firestoreFriendsOnlyData:
+            firestoreFriendsOnlyData as firestoreFriendsOnlyData,
         };
 
         dispatch(setUser(userObjRedux));

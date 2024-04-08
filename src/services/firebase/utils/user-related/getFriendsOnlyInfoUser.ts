@@ -1,21 +1,21 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebaseInit";
-import type { firestoreData } from "../../redux/auth/authSlice";
+import { db } from "../../firebaseInit";
+import type { firestoreFriendsOnlyData } from "../../../redux/auth/authSlice";
 
-export async function getPublicInformationOfUser(userUid: string) {
+export async function getFriendsOnlyInformationOfUser(userUid: string) {
   try {
     const docRef = doc(
       db,
       "users",
       userUid,
       "information",
-      "publicInformation",
+      "friendsOnlyInformation",
     );
 
     const userPublicInformation = await getDoc(docRef).then(
-      (docSnap): firestoreData | null => {
+      (docSnap): firestoreFriendsOnlyData | null => {
         if (docSnap.exists()) {
-          return docSnap.data().publicInformation;
+          return docSnap.data().friendsOnlyInformation;
         } else {
           return null;
         }
