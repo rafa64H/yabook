@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type {
   UserRedux,
-  firestoreData,
-  firestoreFriendsOnlyData,
-  firestorePrivateData,
+  FirestoreData,
+  FirestoreFriendsOnlyData,
+  FirestorePrivateData,
 } from "../../../types/user-types";
 
 interface AuthState {
@@ -57,7 +57,7 @@ const authSlice = createSlice({
     },
     setFirestorePrivateData: (
       state,
-      action: PayloadAction<firestorePrivateData>,
+      action: PayloadAction<FirestorePrivateData>,
     ) => {
       state.user.firestorePrivateData = action.payload;
     },

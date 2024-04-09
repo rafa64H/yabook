@@ -1,4 +1,4 @@
-export type firestorePrivateData = {
+export type FirestorePrivateData = {
   uid: string | null;
   password: string | null;
   gender: string | null;
@@ -7,7 +7,7 @@ export type firestorePrivateData = {
   birthYear: string | null;
 };
 
-export type firestoreFriendsOnlyData = {
+export type FirestoreFriendsOnlyData = {
   uid: string | null;
   password: string | null;
   gender: string | null;
@@ -16,7 +16,7 @@ export type firestoreFriendsOnlyData = {
   birthYear: string | null;
 };
 
-export type firestoreData = {
+export type FirestoreData = {
   uid: string | null;
   firstName: string | null;
   lastName: string | null;
@@ -34,24 +34,33 @@ export type UserRedux = {
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  firestoreData: firestoreData;
-  firestoreFriendsOnlyData: firestoreFriendsOnlyData;
-  firestorePrivateData: firestorePrivateData;
+  firestoreData: FirestoreData;
+  firestoreFriendsOnlyData: FirestoreFriendsOnlyData;
+  firestorePrivateData: FirestorePrivateData;
 };
 
-export type publicUser = {
+export type PublicUser = {
   uid: string | null;
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  firestoreData: firestoreData;
+  firestoreData: FirestoreData;
 };
 
-export type friendsOnlyUser = {
+export type FriendsOnlyUser = {
   uid: string | null;
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  firestoreData: firestoreData;
-  firestoreFriendsOnlyData: firestoreFriendsOnlyData;
+  firestoreData: FirestoreData;
+  firestoreFriendsOnlyData: FirestoreFriendsOnlyData;
 };
+
+export type GenderPrivacy =
+  | "publicGender"
+  | "friendsOnlyGender"
+  | "privateGender";
+export type BirthDatePrivacy =
+  | "publicBirthDate"
+  | "friendsOnlyBirthDate"
+  | "privateBirthDate";

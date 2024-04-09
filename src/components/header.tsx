@@ -13,9 +13,9 @@ import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user
 import { reauthenticateUser } from "../services/firebase/utils/user-related/reauthenticateUser";
 import type {
   UserRedux,
-  firestoreData,
-  firestoreFriendsOnlyData,
-  firestorePrivateData,
+  FirestoreData,
+  FirestoreFriendsOnlyData,
+  FirestorePrivateData,
 } from "../types/user-types";
 
 function Header() {
@@ -51,10 +51,10 @@ function Header() {
           displayName,
           email,
           photoURL,
-          firestoreData: firestoreData as firestoreData,
-          firestorePrivateData: firestorePrivateData as firestorePrivateData,
+          firestoreData: firestoreData as FirestoreData,
+          firestorePrivateData: firestorePrivateData as FirestorePrivateData,
           firestoreFriendsOnlyData:
-            firestoreFriendsOnlyData as firestoreFriendsOnlyData,
+            firestoreFriendsOnlyData as FirestoreFriendsOnlyData,
         };
 
         dispatch(setUser(userObjRedux));

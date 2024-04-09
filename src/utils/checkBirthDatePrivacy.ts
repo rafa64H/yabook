@@ -1,12 +1,13 @@
 import type {
-  publicUser,
-  friendsOnlyUser,
+  PublicUser,
+  FriendsOnlyUser,
   UserRedux,
+  BirthDatePrivacy,
 } from "../types/user-types";
 
 export function checkBirthDatePrivacy(
-  user: publicUser | friendsOnlyUser | UserRedux,
-): "publicBirthDate" | "friendsOnlyBirthDate" | "privateBirthDate" {
+  user: PublicUser | FriendsOnlyUser | UserRedux,
+): BirthDatePrivacy {
   const hasFriendsOnlyInfo = "firestoreFriendsOnlyData" in user;
 
   if (user.firestoreData.birthDay !== null) {

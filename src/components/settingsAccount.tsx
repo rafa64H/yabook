@@ -15,6 +15,7 @@ import { setFirestorePrivateData } from "../services/redux/auth/authSlice";
 import { reauthenticateUser } from "../services/firebase/utils/user-related/reauthenticateUser";
 import { checkGenderPrivacy } from "../utils/checkGenderPrivacy";
 import { checkBirthDatePrivacy } from "../utils/checkBirthDatePrivacy";
+import { changeInfoOfUser } from "../services/firebase/utils/user-related/changeInfoOfUser";
 
 function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
@@ -24,6 +25,9 @@ function SettingsAccount() {
   const [editBackgroundImage, setEditBackgroundImage] = useState(
     user.firestoreData.backgroundImageUrl,
   );
+  const [profileImageToUpload, setProfileImageToUpload] = useState();
+  const [backgroundImageToUpload, setBackgroundImageToUpload] = useState();
+
   const [selectedOptionSettings, setSelectedOptionSettings] = useState(1);
   const [alertMessage, setAlertMessage] = useState("");
   const [monthState, setMonthState] = useState("1");
@@ -55,6 +59,13 @@ function SettingsAccount() {
       genderPrivacyRef.current!.value,
       birthDatePrivacyRef.current!.value,
     );
+
+    let imageBlob = null;
+    const image = fetch(editImage)
+      .then((response) => response.blob())
+      .then((blob) => {
+        imageBlob = blob;
+      });
   });
 
   useEffect(() => {
@@ -62,25 +73,8 @@ function SettingsAccount() {
     lastNameRef.current!.value = `${user.firestoreData.lastName}`;
     emailRef.current!.value = `${user.email}`;
 
-    if (user.firestoreData.gender !== null) {
-      genderPrivacyRef.current!.value = "publicGender";
-    }
-    if (user.firestoreFriendsOnlyData.gender !== null) {
-      genderPrivacyRef.current!.value = "friendsOnlyGender";
-    }
-    if (user.firestorePrivateData.gender !== null) {
-      genderPrivacyRef.current!.value = "privateGender";
-    }
-
-    if (user.firestoreData.birthDay !== null) {
-      birthDatePrivacyRef.current!.value = "publicBirthDate";
-    }
-    if (user.firestoreFriendsOnlyData.birthDay !== null) {
-      birthDatePrivacyRef.current!.value = "friendsOnlyBirthDate";
-    }
-    if (user.firestorePrivateData.birthDay !== null) {
-      birthDatePrivacyRef.current!.value = "privateBirthDate";
-    }
+    genderPrivacyRef.current!.value = checkGenderPrivacy(user);
+    birthDatePrivacyRef.current!.value = checkBirthDatePrivacy(user);
   }, []);
 
   async function handleSubmitChangePassword(e: FormEvent) {
@@ -150,6 +144,31 @@ function SettingsAccount() {
         return;
       }
     });
+
+    try {
+      const currentGenderPrivacy = checkGenderPrivacy(user);
+      const currentBirthDatePrivacy = checkBirthDatePrivacy(user);
+      const newInformationUser = await changeInfoOfUser(
+        user,
+        currentGenderPrivacy,
+        currentBirthDatePrivacy,
+        editImage,
+        editBackgroundImage,
+        firstNameRef.current!.value,
+        lastNameRef.current!.value,
+        emailRef.current!.value,
+        genderRef.current!.value,
+        dayRef.current!.value,
+        monthRef.current!.value,
+        yearRef.current!.value,
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleSubmitChangePrivacy(e: FormEvent) {
+    e.preventDefault();
   }
 
   const handleChange = (value: string) => {
@@ -159,7 +178,6 @@ function SettingsAccount() {
   const handleChangeEditImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const url = URL.createObjectURL(e.target.files[0]);
-      console.log(url);
       setEditImage(url);
     }
   };
@@ -169,7 +187,6 @@ function SettingsAccount() {
   ) => {
     if (e.target.files && e.target.files[0]) {
       const url = URL.createObjectURL(e.target.files[0]);
-      console.log(url);
       setEditBackgroundImage(url);
     }
   };
@@ -403,7 +420,9 @@ function SettingsAccount() {
           </form>
 
           <form
-            onSubmit={(e) => {}}
+            onSubmit={(e) => {
+              handleSubmitChangePrivacy(e);
+            }}
             className={`${selectedOptionSettings === 3 ? "block" : "hidden"}`}
           >
             <section className=" w-full max-w-[40rem] text-lg">

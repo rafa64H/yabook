@@ -1,31 +1,52 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { auth } from "../../firebaseInit";
+import { auth, db } from "../../firebaseInit";
+import type {
+  BirthDatePrivacy,
+  GenderPrivacy,
+  UserRedux,
+} from "../../../../types/user-types";
 
-async function changeInfoOfUser() {
+export async function changeInfoOfUser(
+  userObjRedux: UserRedux,
+  currentGenderPrivacy: GenderPrivacy,
+  currentBirthDatePrivacy: BirthDatePrivacy,
+  newProfilePicture: string,
+  newBackgroundPicture: string,
+  newFirstName: string,
+  newLastName: string,
+  newEmail: string,
+  newGender: string,
+  newBirthDay: string,
+  newBirthMonth: string,
+  newBirthYear: string,
+) {
   const user = auth.currentUser;
+
+  const publicInformationRef = doc(
+    db,
+    "users",
+    user!.uid,
+    "information",
+    "publicInformation",
+  );
+
+  const friendsOnlyInformationRef = doc(
+    db,
+    "users",
+    user!.uid,
+    "information",
+    "friendsOnlyInformation",
+  );
+
   const privateInformationRef = doc(
     db,
     "users",
-    uid,
+    user!.uid,
     "information",
     "privateInformation",
   );
 
-  const newPrivateInformation = {
-    uid: firestorePrivateData.uid,
-    birthDay: firestorePrivateData.birthDay,
-    birthMonth: firestorePrivateData.birthMonth,
-    birthYear: firestorePrivateData.birthYear,
-    password: firestorePrivateData.password,
-    gender: firestorePrivateData.gender,
-  };
-  newPrivateInformation.password = newPassword;
-
   try {
-    await updateDoc(privateInformationRef, {
-      "privateInformation.password": newPassword,
-    });
-    return newPrivateInformation;
   } catch (err) {
     console.log(err);
   }

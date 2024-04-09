@@ -1,12 +1,13 @@
 import type {
-  publicUser,
-  friendsOnlyUser,
+  PublicUser,
+  FriendsOnlyUser,
   UserRedux,
+  GenderPrivacy,
 } from "../types/user-types";
 
 export function checkGenderPrivacy(
-  user: publicUser | friendsOnlyUser | UserRedux,
-): "publicGender" | "friendsOnlyGender" | "privateGender" {
+  user: PublicUser | FriendsOnlyUser | UserRedux,
+): GenderPrivacy {
   const hasFriendsOnlyInfo = "firestoreFriendsOnlyData" in user;
 
   if (user.firestoreData.gender !== null) {

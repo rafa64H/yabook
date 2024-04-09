@@ -15,7 +15,7 @@ import { getPublicInformationOfUser } from "../services/firebase/utils/user-rela
 import { auth } from "../services/firebase/firebaseInit";
 import { setUser } from "../services/redux/auth/authSlice";
 import type { FormEvent } from "react";
-import type { firestoreData } from "../types/user-types";
+import type { FirestoreData } from "../types/user-types";
 import { getPrivateInformationOfUser } from "../services/firebase/utils/user-related/getPrivateInfoUser";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
 
