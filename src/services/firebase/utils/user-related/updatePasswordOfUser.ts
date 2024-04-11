@@ -1,13 +1,13 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../firebaseInit";
-import type { firestorePrivateData } from "../../../redux/auth/authSlice";
 import { updatePassword } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
+import type { FirestorePrivateData } from "../../../../types/user-types";
 
 export async function updatePasswordOfUser(
   newPassword: string,
   uid: string,
-  firestorePrivateData: firestorePrivateData,
+  firestorePrivateData: FirestorePrivateData,
 ) {
   const user = auth.currentUser;
   const privateInformationRef = doc(

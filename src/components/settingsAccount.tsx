@@ -59,13 +59,6 @@ function SettingsAccount() {
       genderPrivacyRef.current!.value,
       birthDatePrivacyRef.current!.value,
     );
-
-    let imageBlob = null;
-    const image = fetch(editImage)
-      .then((response) => response.blob())
-      .then((blob) => {
-        imageBlob = blob;
-      });
   });
 
   useEffect(() => {
@@ -146,6 +139,7 @@ function SettingsAccount() {
     });
 
     try {
+      await reauthenticateUser(user.firestorePrivateData.password);
       const currentGenderPrivacy = checkGenderPrivacy(user);
       const currentBirthDatePrivacy = checkBirthDatePrivacy(user);
       const newInformationUser = await changeInfoOfUser(
@@ -162,6 +156,7 @@ function SettingsAccount() {
         monthRef.current!.value,
         yearRef.current!.value,
       );
+      console.log(newInformationUser);
     } catch (err) {
       console.log(err);
     }
@@ -298,7 +293,7 @@ function SettingsAccount() {
                 <i className="fa-solid fa-pencil absolute text-center text-xl text-white"></i>
               </div>
 
-              <img className=" object-cover" src={`${editImage}`} alt="" />
+              <img className="object-cover" src={`${editImage}`} alt="" />
             </button>
 
             <h3 className="my-2  text-xl font-bold text-firstColor">

@@ -75,7 +75,7 @@ function Header() {
   }, []);
 
   return (
-    <header className=" text-white ">
+    <header className="relative z-20 text-white ">
       <div className=" flex items-center justify-between bg-firstColor px-5 py-10">
         <CompanyLogo></CompanyLogo>
 

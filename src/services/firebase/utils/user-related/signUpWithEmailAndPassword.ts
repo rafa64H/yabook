@@ -1,8 +1,12 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db, storage } from "../../firebaseInit";
 import type { User } from "firebase/auth";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getDownloadURL, ref } from "firebase/storage";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export async function signUpWithEmailAndPassword(
   firstName: string,
@@ -97,6 +101,16 @@ export async function createUserDataFirestore(
       "createdPostsCollection",
     );
 
+    const storageProfilePictureRef = ref(
+      storage,
+      `profilePictures/${user!.uid}/${user!.uid}.jpg`,
+    );
+
+    const storageBackgroundPictureRef = ref(
+      storage,
+      `backgroundPictures/${user!.uid}/${user!.uid}.jpg`,
+    );
+
     const anonymousProfilePictureRef = ref(
       storage,
       "profilePictures/withoutProfilePicture/no-image.webp",
@@ -110,7 +124,7 @@ export async function createUserDataFirestore(
 
     const withoutBackgroundImageRef = ref(
       storage,
-      "backgroundImages/withoutBackgroundImage/no-background-image.jpg",
+      "backgroundPictures/withoutBackgroundPicture/no-background-image.jpg",
     );
 
     let backgroundImageUrl = "";
@@ -118,6 +132,11 @@ export async function createUserDataFirestore(
     await getDownloadURL(withoutBackgroundImageRef).then((url) => {
       backgroundImageUrl = url;
     });
+
+    const emptyBlob = new Blob([""], { type: "image/jpeg" });
+
+    await uploadBytes(storageProfilePictureRef, emptyBlob);
+    await uploadBytes(storageBackgroundPictureRef, emptyBlob);
 
     const newDocumentPrivateData = {
       privateInformation: {
@@ -169,6 +188,8 @@ export async function createUserDataFirestore(
     await setDoc(newDocumentPublicInformationRef, newDocumentPublicData);
     await setDoc(newDocumentPostsRef, {});
     await setDoc(newDocumentCommentsRef, {});
+
+    await sendEmailVerification(user);
 
     console.log("updated");
   } catch (err) {
