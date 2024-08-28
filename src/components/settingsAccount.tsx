@@ -100,7 +100,7 @@ function SettingsAccount() {
 
       const newFirestoreDataAfterChange = await updatePasswordOfUser(
         newPasswordRef.current!.value,
-        user.uid,
+        user.uid!,
         user.firestorePrivateData,
       );
 
@@ -139,15 +139,15 @@ function SettingsAccount() {
     });
 
     try {
-      await reauthenticateUser(user.firestorePrivateData.password);
+      await reauthenticateUser(user.firestorePrivateData.password!);
       const currentGenderPrivacy = checkGenderPrivacy(user);
       const currentBirthDatePrivacy = checkBirthDatePrivacy(user);
       const newInformationUser = await changeInfoOfUser(
         user,
         currentGenderPrivacy,
         currentBirthDatePrivacy,
-        editImage,
-        editBackgroundImage,
+        editImage!,
+        editBackgroundImage!,
         firstNameRef.current!.value,
         lastNameRef.current!.value,
         emailRef.current!.value,
