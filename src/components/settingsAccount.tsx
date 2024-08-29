@@ -236,6 +236,17 @@ function SettingsAccount() {
               selected={selectedOptionSettings === 3 ? true : false}
             ></TransparentBtn>
           </li>
+          <li
+            onClick={() => {
+              setSelectedOptionSettings(4);
+            }}
+          >
+            <TransparentBtn
+              textBtn="Friends"
+              typeButton="button"
+              selected={selectedOptionSettings === 4 ? true : false}
+            ></TransparentBtn>
+          </li>
         </ul>
 
         <section className={`w-[90%] bg-slate-300 px-2 sm:w-[70%] `}>
@@ -451,6 +462,61 @@ function SettingsAccount() {
               <RedBtn textBtn="Change privacy" typeButton="submit"></RedBtn>
             </section>
           </form>
+
+          <ul
+            className={`w-full flex-col p-2 text-lg lg:flex-row lg:flex-wrap lg:justify-between lg:p-10 ${selectedOptionSettings === 4 ? "flex" : "hidden"}`}
+          >
+            <li className="relative w-[min(20rem,90%)]">
+              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
+                <span className="text-white opacity-100">View profile</span>
+              </button>
+              <img
+                className="max-w-[7rem]"
+                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+              ></img>
+              <h3 className="font-bold ">Pablo</h3>
+              <p>
+                Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor...
+              </p>
+              <p>Male</p>
+              <p>20-02-2003</p>
+            </li>
+
+            <li className="relative w-[min(20rem,90%)]">
+              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
+                <span className="text-white opacity-100">View profile</span>
+              </button>
+              <img
+                className="max-w-[7rem]"
+                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+              ></img>
+              <h3 className="font-bold ">Pablo</h3>
+              <p>
+                Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor...
+              </p>
+              <p>Male</p>
+              <p>20-02-2003</p>
+            </li>
+
+            <li className="relative w-[min(20rem,90%)]">
+              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
+                <span className="text-white opacity-100">View profile</span>
+              </button>
+              <img
+                className="max-w-[7rem]"
+                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+              ></img>
+              <h3 className="font-bold ">Pablo</h3>
+              <p>
+                Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor...
+              </p>
+              <p>Male</p>
+              <p>20-02-2003</p>
+            </li>
+          </ul>
         </section>
       </div>
     </section>
