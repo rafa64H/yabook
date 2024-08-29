@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseInit";
-import type { firestorePrivateData } from "../../../redux/auth/authSlice";
+import type { FirestorePrivateData } from "../../../../types/user-types";
 
 export async function getPrivateInformationOfUser(userUid: string) {
   try {
@@ -13,7 +13,7 @@ export async function getPrivateInformationOfUser(userUid: string) {
     );
 
     const userPublicInformation = await getDoc(docRef).then(
-      (docSnap): firestorePrivateData | null => {
+      (docSnap): FirestorePrivateData | null => {
         if (docSnap.exists()) {
           return docSnap.data().privateInformation;
         } else {
