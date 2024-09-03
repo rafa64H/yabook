@@ -16,6 +16,7 @@ import { reauthenticateUser } from "../services/firebase/utils/user-related/reau
 import { checkGenderPrivacy } from "../utils/checkGenderPrivacy";
 import { checkBirthDatePrivacy } from "../utils/checkBirthDatePrivacy";
 import { changeInfoOfUser } from "../services/firebase/utils/user-related/changeInfoOfUser";
+import ProfileCard from "./ui/profileCard";
 
 function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
@@ -464,57 +465,51 @@ function SettingsAccount() {
           </form>
 
           <ul
-            className={`w-full flex-col p-2 text-lg lg:flex-row lg:flex-wrap lg:justify-between lg:p-10 ${selectedOptionSettings === 4 ? "flex" : "hidden"}`}
+            className={`w-full flex-col gap-4 p-2 text-lg lg:flex-row lg:flex-wrap lg:gap-20 lg:p-10 ${selectedOptionSettings === 4 ? "flex" : "hidden"}`}
           >
-            <li className="relative w-[min(20rem,90%)]">
-              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
-                <span className="text-white opacity-100">View profile</span>
-              </button>
-              <img
-                className="max-w-[7rem]"
-                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
-              ></img>
-              <h3 className="font-bold ">Pablo</h3>
-              <p>
-                Hello! I'm pablo and I usually code with my 1gb ram computer and
-                intel atom processor...
-              </p>
-              <p>Male</p>
-              <p>20-02-2003</p>
+            <li className="">
+              <ProfileCard
+                imageUrl="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+                name="Pablo"
+                text="Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor"
+                gender="Male"
+                birthDate="20-02-2003"
+                showName={true}
+                showText={true}
+                showGender={true}
+                showBirthDate={true}
+              ></ProfileCard>
             </li>
 
-            <li className="relative w-[min(20rem,90%)]">
-              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
-                <span className="text-white opacity-100">View profile</span>
-              </button>
-              <img
-                className="max-w-[7rem]"
-                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
-              ></img>
-              <h3 className="font-bold ">Pablo</h3>
-              <p>
-                Hello! I'm pablo and I usually code with my 1gb ram computer and
-                intel atom processor...
-              </p>
-              <p>Male</p>
-              <p>20-02-2003</p>
+            <li className="">
+              <ProfileCard
+                imageUrl="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+                name="Pablo"
+                text="Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor"
+                gender="Male"
+                birthDate="20-02-2003"
+                showName={true}
+                showText={true}
+                showGender={true}
+                showBirthDate={true}
+              ></ProfileCard>
             </li>
 
-            <li className="relative w-[min(20rem,90%)]">
-              <button className="absolute h-full w-full cursor-pointer opacity-0 transition-all duration-200 hover:bg-black hover:opacity-70">
-                <span className="text-white opacity-100">View profile</span>
-              </button>
-              <img
-                className="max-w-[7rem]"
-                src="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
-              ></img>
-              <h3 className="font-bold ">Pablo</h3>
-              <p>
-                Hello! I'm pablo and I usually code with my 1gb ram computer and
-                intel atom processor...
-              </p>
-              <p>Male</p>
-              <p>20-02-2003</p>
+            <li className="">
+              <ProfileCard
+                imageUrl="https://us-tuna-sounds-images.voicemod.net/e25e688c-c13b-4dc1-95ce-4f4a80a836cc-1706430301510.jpg"
+                name="Pablo"
+                text="Hello! I'm pablo and I usually code with my 1gb ram computer and
+                intel atom processor"
+                gender="Male"
+                birthDate="20-02-2003"
+                showName={true}
+                showText={true}
+                showGender={true}
+                showBirthDate={true}
+              ></ProfileCard>
             </li>
           </ul>
         </section>
