@@ -5,6 +5,7 @@ export type FirestorePrivateData = {
   birthDay: string | null;
   birthMonth: string | null;
   birthYear: string | null;
+  friends: string[] | null;
 };
 
 export type FirestoreFriendsOnlyData = {
@@ -14,6 +15,7 @@ export type FirestoreFriendsOnlyData = {
   birthDay: string | null;
   birthMonth: string | null;
   birthYear: string | null;
+  friends: string[] | null;
 };
 
 export type FirestoreData = {
@@ -27,6 +29,7 @@ export type FirestoreData = {
   birthDay: string | null;
   birthMonth: string | null;
   birthYear: string | null;
+  friends: string[] | null;
 };
 
 export type UserRedux = {
@@ -64,3 +67,7 @@ export type BirthDatePrivacy =
   | "publicBirthDate"
   | "friendsOnlyBirthDate"
   | "privateBirthDate";
+export type FriendsPrivacy =
+  | "publicFriendsList"
+  | "friendsOnlyFriendsList"
+  | "privateFriendsList";

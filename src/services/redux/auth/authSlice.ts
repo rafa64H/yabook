@@ -28,6 +28,7 @@ export const initialState: AuthState = {
       birthDay: null,
       birthMonth: null,
       birthYear: null,
+      friends: null,
     },
     firestoreFriendsOnlyData: {
       uid: null,
@@ -36,6 +37,7 @@ export const initialState: AuthState = {
       birthDay: null,
       birthMonth: null,
       birthYear: null,
+      friends: null,
     },
     firestorePrivateData: {
       uid: null,
@@ -44,6 +46,7 @@ export const initialState: AuthState = {
       birthDay: null,
       birthMonth: null,
       birthYear: null,
+      friends: null,
     },
   },
 };

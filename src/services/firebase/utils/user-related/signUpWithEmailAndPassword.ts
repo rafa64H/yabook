@@ -146,6 +146,7 @@ export async function createUserDataFirestore(
         birthDay: null,
         birthMonth: null,
         birthYear: null,
+        friends: null,
       },
     };
 
@@ -157,6 +158,7 @@ export async function createUserDataFirestore(
         birthDay: null,
         birthMonth: null,
         birthYear: null,
+        friends: null,
       },
     };
 
@@ -172,6 +174,7 @@ export async function createUserDataFirestore(
         birthDay: birthDay,
         birthMonth: birthMonth,
         birthYear: birthYear,
+        friends: [],
       },
     };
 

@@ -8,7 +8,7 @@ export async function updatePasswordOfUser(
   newPassword: string,
   uid: string,
   firestorePrivateData: FirestorePrivateData,
-) {
+): Promise<FirestorePrivateData | undefined> {
   const user = auth.currentUser;
   const privateInformationRef = doc(
     db,
@@ -25,6 +25,7 @@ export async function updatePasswordOfUser(
     birthYear: firestorePrivateData.birthYear,
     password: firestorePrivateData.password,
     gender: firestorePrivateData.gender,
+    friends: firestorePrivateData.friends,
   };
   newPrivateInformation.password = newPassword;
 

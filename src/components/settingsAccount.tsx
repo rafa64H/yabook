@@ -15,6 +15,7 @@ import { setFirestorePrivateData } from "../services/redux/auth/authSlice";
 import { reauthenticateUser } from "../services/firebase/utils/user-related/reauthenticateUser";
 import { checkGenderPrivacy } from "../utils/checkGenderPrivacy";
 import { checkBirthDatePrivacy } from "../utils/checkBirthDatePrivacy";
+import { checkFriendsListPrivacy } from "../utils/checkFriendsListPrivacy";
 import { changeInfoOfUser } from "../services/firebase/utils/user-related/changeInfoOfUser";
 import ProfileCard from "./ui/profileCard";
 
@@ -51,6 +52,7 @@ function SettingsAccount() {
 
   const genderPrivacyRef = useRef<HTMLInputElement>(null);
   const birthDatePrivacyRef = useRef<HTMLInputElement>(null);
+  const friendsListPrivacyRef = useRef<HTMLInputElement>(null);
 
   const url = new URL(window.location.href);
   const uid = url.searchParams.get("uid");
@@ -69,6 +71,7 @@ function SettingsAccount() {
 
     genderPrivacyRef.current!.value = checkGenderPrivacy(user);
     birthDatePrivacyRef.current!.value = checkBirthDatePrivacy(user);
+    friendsListPrivacyRef.current!.value = checkFriendsListPrivacy(user);
   }, []);
 
   async function handleSubmitChangePassword(e: FormEvent) {
@@ -455,9 +458,23 @@ function SettingsAccount() {
                 valueForChecked={birthDatePrivacyRef.current?.value}
               ></InputRadioBtns>
 
+              <InputRadioBtns
+                title="Friends list:"
+                options={["Public", "Friends only", "Private"]}
+                name="friendsList"
+                values={[
+                  "publicFriendsList",
+                  "friendsOnlyFriendsList",
+                  "privateFriendsList",
+                ]}
+                onClickFunction={changePrivacyBirthDate}
+                valueForChecked={friendsListPrivacyRef.current?.value}
+              ></InputRadioBtns>
+
               <div className="hidden">
                 <input type="text" ref={genderPrivacyRef}></input>
                 <input type="text" ref={birthDatePrivacyRef}></input>
+                <input type="text" ref={friendsListPrivacyRef}></input>
               </div>
 
               <RedBtn textBtn="Change privacy" typeButton="submit"></RedBtn>
