@@ -19,6 +19,13 @@ import { checkFriendsListPrivacy } from "../utils/checkFriendsListPrivacy";
 import { changeInfoOfUser } from "../services/firebase/utils/user-related/changeInfoOfUser";
 import ProfileCard from "./ui/profileCard";
 
+import type {
+  BirthDatePrivacy,
+  FriendsPrivacy,
+  GenderPrivacy,
+} from "../types/user-types";
+import changePrivacyOfUser from "../services/firebase/utils/user-related/changePrivacyOfUser";
+
 function SettingsAccount() {
   const user = useAppSelector((store) => store.auth.user);
   const dispatch = useAppDispatch();
@@ -54,13 +61,11 @@ function SettingsAccount() {
   const birthDatePrivacyRef = useRef<HTMLInputElement>(null);
   const friendsListPrivacyRef = useRef<HTMLInputElement>(null);
 
-  const url = new URL(window.location.href);
-  const uid = url.searchParams.get("uid");
-
   useEffect(() => {
     console.log(
       genderPrivacyRef.current!.value,
       birthDatePrivacyRef.current!.value,
+      friendsListPrivacyRef.current!.value,
     );
   });
 
@@ -168,6 +173,20 @@ function SettingsAccount() {
 
   async function handleSubmitChangePrivacy(e: FormEvent) {
     e.preventDefault();
+
+    const currentBirthDatePrivacy = checkBirthDatePrivacy(user);
+    const currentGenderPrivacy = checkGenderPrivacy(user);
+    const currentFriendsListPrivacy = checkFriendsListPrivacy(user);
+
+    await changePrivacyOfUser(
+      birthDatePrivacyRef.current!.value as BirthDatePrivacy,
+      currentBirthDatePrivacy,
+      friendsListPrivacyRef.current!.value as FriendsPrivacy,
+      currentFriendsListPrivacy,
+      genderPrivacyRef.current!.value as GenderPrivacy,
+      currentGenderPrivacy,
+      user,
+    );
   }
 
   const handleChange = (value: string) => {
@@ -198,6 +217,11 @@ function SettingsAccount() {
   const changePrivacyBirthDate = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     birthDatePrivacyRef.current!.value = target.value;
+  };
+
+  const changePrivacyFriendsList = (e: React.MouseEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    friendsListPrivacyRef.current!.value = target.value;
   };
 
   return (
@@ -467,7 +491,7 @@ function SettingsAccount() {
                   "friendsOnlyFriendsList",
                   "privateFriendsList",
                 ]}
-                onClickFunction={changePrivacyBirthDate}
+                onClickFunction={changePrivacyFriendsList}
                 valueForChecked={friendsListPrivacyRef.current?.value}
               ></InputRadioBtns>
 
