@@ -43,18 +43,10 @@ export type UserRedux = {
 };
 
 export type PublicUser = {
-  uid: string | null;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
   firestoreData: FirestoreData;
 };
 
 export type FriendsOnlyUser = {
-  uid: string | null;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
   firestoreData: FirestoreData;
   firestoreFriendsOnlyData: FirestoreFriendsOnlyData;
 };
