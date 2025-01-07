@@ -142,11 +142,11 @@ export async function createUserDataFirestore(
       privateInformation: {
         uid: uid,
         password: password,
-        gender: null,
-        birthDay: null,
-        birthMonth: null,
-        birthYear: null,
-        friends: null,
+        gender: gender,
+        birthDay: birthDay,
+        birthMonth: birthMonth,
+        birthYear: birthYear,
+        friends: [],
       },
     };
 
@@ -154,11 +154,11 @@ export async function createUserDataFirestore(
       friendsOnlyInformation: {
         uid: uid,
         password: password,
-        gender: null,
-        birthDay: null,
-        birthMonth: null,
-        birthYear: null,
-        friends: null,
+        gender: gender,
+        birthDay: birthDay,
+        birthMonth: birthMonth,
+        birthYear: birthYear,
+        friends: [],
       },
     };
 

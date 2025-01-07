@@ -8,7 +8,7 @@ import { store } from "../services/redux/store";
 import LoadingWholePage from "../components/loadingWholePage";
 import { useAppSelector } from "../hooks/hooks";
 
-const Page = () => {
+const SignUpPage = () => {
   return (
     <>
       <Header></Header>
@@ -19,10 +19,4 @@ const Page = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Page></Page>
-    </Provider>
-  </React.StrictMode>,
-);
+export default SignUpPage

@@ -17,10 +17,13 @@ import type {
   FirestoreFriendsOnlyData,
   FirestorePrivateData,
 } from "../types/user-types";
+import type { RootState } from "../services/redux/store";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const user = useAppSelector((store) => store.auth.user);
+  const user = useAppSelector((store: RootState) => store.auth.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [navState, setNavState] = useState(false);
 
   useEffect(() => {
@@ -63,12 +66,12 @@ function Header() {
 
         const pathname = window.location.pathname;
         if (pathname === "/login.html" || pathname === "/sign-up.html") {
-          window.location.href = "./index.html";
+          navigate("/");
         }
       } else {
         const pathname = window.location.pathname;
         if (pathname !== "/sign-up.html" && pathname !== "/login.html") {
-          window.location.href = "./sign-up.html";
+          navigate("/sign-up");
         }
       }
     });

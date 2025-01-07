@@ -18,6 +18,7 @@ import type { FormEvent } from "react";
 import type { FirestoreData } from "../types/user-types";
 import { getPrivateInformationOfUser } from "../services/firebase/utils/user-related/getPrivateInfoUser";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
+import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/user-related/signInWithEmailAndPassword";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
@@ -128,38 +129,9 @@ function SignUpForm() {
       return null;
     }
 
-    const user = signUp;
+    const user = await signUp;
     const { uid, displayName, email, photoURL } = user;
 
-    const firestoreData = await getPublicInformationOfUser(user.uid);
-    const firestoreFriendsOnlyData = await getFriendsOnlyInformationOfUser(
-      user.uid,
-    );
-    const firestorePrivateData = await getPrivateInformationOfUser(user.uid);
-
-    if (!firestoreData) {
-      console.log("Error getting public information of user");
-      return;
-    }
-    if (!firestorePrivateData) {
-      console.log("Error getting private information of user");
-      return;
-    }
-    if (!firestoreFriendsOnlyData) {
-      console.log("Error getting friends only information of user");
-      return;
-    }
-    const userObjRedux = {
-      uid,
-      displayName,
-      email,
-      photoURL,
-      firestoreData: firestoreData,
-      firestoreFriendsOnlyData: firestoreFriendsOnlyData,
-      firestorePrivateData: firestorePrivateData,
-    };
-
-    dispatch(setUser(userObjRedux));
     window.location.href = "./index.html";
   }
 

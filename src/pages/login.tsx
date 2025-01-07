@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "../services/redux/store";
 import { useAppSelector } from "../hooks/hooks";
 import LoadingWholePage from "../components/loadingWholePage";
-const Page = () => {
+const LoginPage = () => {
   return (
     <>
       <Header></Header>
@@ -18,10 +18,4 @@ const Page = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Page></Page>
-    </Provider>
-  </React.StrictMode>,
-);
+export default LoginPage

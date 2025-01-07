@@ -203,15 +203,15 @@ async function updateDocumentBirthDatePublic(
     });
 
     await updateDoc(friendsOnlyInformationRef, {
-      "friendsOnlyInformation.birthDay": null,
-      "friendsOnlyInformation.birthMonth": null,
-      "friendsOnlyInformation.birthYear": null,
+      "friendsOnlyInformation.birthDay": newBirthDay,
+      "friendsOnlyInformation.birthMonth": newBirthMonth,
+      "friendsOnlyInformation.birthYear": newBirthYear,
     });
 
     await updateDoc(privateInformationRef, {
-      "privateInformation.birthDay": null,
-      "privateInformation.birthMonth": null,
-      "privateInformation.birthYear": null,
+      "privateInformation.birthDay": newBirthDay,
+      "privateInformation.birthMonth": newBirthMonth,
+      "privateInformation.birthYear": newBirthYear,
     });
   } catch (err) {
     return err;
@@ -240,9 +240,9 @@ async function updateDocumentBirthDateFriendsOnly(
     });
 
     await updateDoc(privateInformationRef, {
-      "privateInformation.birthDay": null,
-      "privateInformation.birthMonth": null,
-      "privateInformation.birthYear": null,
+      "privateInformation.birthDay": newBirthDay,
+      "privateInformation.birthMonth": newBirthMonth,
+      "privateInformation.birthYear": newBirthYear,
     });
   } catch (err) {
     return err;
@@ -292,11 +292,11 @@ async function updateDocumentGenderPublic(
     });
 
     await updateDoc(friendsOnlyInformationRef, {
-      "friendsOnlyInformation.gender": null,
+      "friendsOnlyInformation.gender": newGender,
     });
 
     await updateDoc(privateInformationRef, {
-      "privateInformation.gender": null,
+      "privateInformation.gender": newGender,
     });
   } catch (err) {
     return err;
@@ -319,7 +319,7 @@ async function updateDocumentGenderFriendsOnly(
     });
 
     await updateDoc(privateInformationRef, {
-      "privateInformation.gender": null,
+      "privateInformation.gender": newGender,
     });
   } catch (err) {
     return err;

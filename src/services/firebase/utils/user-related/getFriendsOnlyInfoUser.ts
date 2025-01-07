@@ -24,6 +24,8 @@ export async function getFriendsOnlyInformationOfUser(userUid: string) {
 
     return userPublicInformation;
   } catch (err) {
-    console.log(err);
+    if (err.message === "Missing or insufficient permissions.") {
+      return "missing-permissions";
+    }
   }
 }
