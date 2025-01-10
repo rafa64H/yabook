@@ -19,11 +19,13 @@ import type { FirestoreData } from "../types/user-types";
 import { getPrivateInformationOfUser } from "../services/firebase/utils/user-related/getPrivateInfoUser";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
 import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/user-related/signInWithEmailAndPassword";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const [monthState, setMonthState] = useState("1");
   const [alertMessage, setAlertMessage] = useState("");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -132,7 +134,7 @@ function SignUpForm() {
     const user = await signUp;
     const { uid, displayName, email, photoURL } = user;
 
-    window.location.href = "./index.html";
+    navigate("/");
   }
 
   return (
@@ -252,12 +254,9 @@ function SignUpForm() {
         <RedBtn typeButton="submit" textBtn="Sign up"></RedBtn>
 
         <p>
-          <a
-            href="./login.html"
-            className="font-inter text-lg  hover:underline"
-          >
+          <Link to="/login" className="font-inter text-lg  hover:underline">
             Already have an account? Sign in
-          </a>
+          </Link>
         </p>
       </form>
     </>

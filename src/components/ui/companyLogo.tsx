@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CompanyLogo() {
   return (
-    <a href="./index.html" className="font-sixtyFour text-2xl">
+    <Link to={"/"} className="font-sixtyFour text-2xl">
       <strong>Yabook</strong>
-    </a>
+    </Link>
   );
 }
 

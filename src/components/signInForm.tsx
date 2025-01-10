@@ -5,9 +5,11 @@ import FormInputPassword from "./ui/formInputPassword";
 import RedBtn from "./ui/redBtn";
 import { signInWithEmailAndPasswordFunction } from "../services/firebase/utils/user-related/signInWithEmailAndPassword";
 import FormInputEmail from "./ui/formInputEmail";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignInForm() {
   const [alertMessage, setAlertMessage] = useState("");
+  const navigate = useNavigate();
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -48,7 +50,7 @@ function SignInForm() {
       return null;
     }
 
-    window.location.href = "./index.html";
+    navigate("/");
   }
 
   return (
@@ -89,21 +91,15 @@ function SignInForm() {
         <RedBtn typeButton="submit" textBtn="Sign in"></RedBtn>
 
         <p>
-          <a
-            href="./sign-up.html"
-            className="font-inter text-lg  hover:underline"
-          >
+          <Link to="/sign-up" className="font-inter text-lg  hover:underline">
             Forgot password? Recover password
-          </a>
+          </Link>
         </p>
 
         <p>
-          <a
-            href="./sign-up.html"
-            className="font-inter text-lg  hover:underline"
-          >
+          <Link to="/sign-up" className="font-inter text-lg  hover:underline">
             Not having account? Register
-          </a>
+          </Link>
         </p>
       </form>
     </>

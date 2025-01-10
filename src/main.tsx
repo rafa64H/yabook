@@ -9,19 +9,33 @@ import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
 import AccountSettingsPage from "./pages/accountSettings";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import NeedGuestPage from "./components/protected-routes/NeedGuestPage";
+import NeedLoginPage from "./components/protected-routes/NeedLoginPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage></HomePage>,
+    element: (
+      <NeedLoginPage>
+        <HomePage></HomePage>,
+      </NeedLoginPage>
+    ),
   },
   {
     path: "/sign-up",
-    element: <SignUpPage></SignUpPage>,
+    element: (
+      <NeedGuestPage>
+        <SignUpPage></SignUpPage>,
+      </NeedGuestPage>
+    ),
   },
   {
     path: "/login",
-    element: <LoginPage></LoginPage>,
+    element: (
+      <NeedGuestPage>
+        <LoginPage></LoginPage>,
+      </NeedGuestPage>
+    ),
   },
   {
     path: "/profile/:uid",

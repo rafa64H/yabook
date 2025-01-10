@@ -26,57 +26,6 @@ function Header() {
   const navigate = useNavigate();
   const [navState, setNavState] = useState(false);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const { uid, displayName, email, photoURL } = user;
-
-        const firestoreData = await getPublicInformationOfUser(user.uid);
-        const firestorePrivateData = await getPrivateInformationOfUser(
-          user.uid,
-        );
-
-        const firestoreFriendsOnlyData = await getFriendsOnlyInformationOfUser(
-          user.uid,
-        );
-
-        if (!firestoreData) {
-          return;
-        }
-        if (!firestorePrivateData) {
-          return;
-        }
-        if (!firestoreFriendsOnlyData) {
-          return;
-        }
-        const userObjRedux: UserRedux = {
-          uid,
-          displayName,
-          email,
-          photoURL,
-          firestoreData: firestoreData as FirestoreData,
-          firestorePrivateData: firestorePrivateData as FirestorePrivateData,
-          firestoreFriendsOnlyData:
-            firestoreFriendsOnlyData as FirestoreFriendsOnlyData,
-        };
-
-        dispatch(setUser(userObjRedux));
-
-        reauthenticateUser(userObjRedux.firestorePrivateData.password!);
-
-        const pathname = window.location.pathname;
-        if (pathname === "/login.html" || pathname === "/sign-up.html") {
-          navigate("/");
-        }
-      } else {
-        const pathname = window.location.pathname;
-        if (pathname !== "/sign-up.html" && pathname !== "/login.html") {
-          navigate("/sign-up");
-        }
-      }
-    });
-  }, []);
-
   return (
     <header className="relative z-20 text-white ">
       <div className=" flex items-center justify-between bg-firstColor px-5 py-10">
@@ -103,8 +52,8 @@ function Header() {
           aria-hidden={!navState}
         >
           <ul className="top-30 absolute z-10 flex w-full flex-col items-center justify-between bg-firstColor font-robotoSlab text-lg font-semibold">
-            <NavBarItem text="Home" link="./login.html"></NavBarItem>
-            <NavBarItem text="About" link="./sign-up.html"></NavBarItem>
+            <NavBarItem text="Home" link="/login"></NavBarItem>
+            <NavBarItem text="About" link="/sign-up"></NavBarItem>
             <NavBarItem text="Services" link="#services"></NavBarItem>
             <NavBarItem text="Portfolio" link="#portfolio"></NavBarItem>
             <NavBarItem text="Contact" link="#contact"></NavBarItem>
@@ -115,7 +64,7 @@ function Header() {
                 try {
                   await signOut(auth);
                   dispatch(setUser(initialState.user));
-                  window.location.href = "./login.html";
+                  navigate("/login");
                 } catch (err) {
                   console.log(err);
                 }
