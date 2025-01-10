@@ -13,13 +13,15 @@ function NeedLoginPage({ children }: ProtectedRouteProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await setUserReduxStore(user);
-      } else {
-        navigate("/sign-up");
-      }
-    });
+    if (user.loading) {
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          await setUserReduxStore(user);
+        } else {
+          navigate("/sign-up");
+        }
+      });
+    }
   }, []);
 
   return children;

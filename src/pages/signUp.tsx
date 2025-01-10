@@ -4,11 +4,12 @@ import "../assets/main.css";
 import Header from "../components/header";
 import SignUpForm from "../components/signUpForm";
 import { Provider } from "react-redux";
-import { store } from "../services/redux/store";
+import { type RootState, store } from "../services/redux/store";
 import LoadingWholePage from "../components/loadingWholePage";
 import { useAppSelector } from "../hooks/hooks";
 
 const SignUpPage = () => {
+  const user = useAppSelector((store: RootState) => store.auth.user);
   return (
     <>
       <Header></Header>
@@ -19,4 +20,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage
+export default SignUpPage;

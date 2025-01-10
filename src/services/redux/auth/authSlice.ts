@@ -14,6 +14,7 @@ interface AuthState {
 export const initialState: AuthState = {
   user: {
     uid: null,
+    loading: true,
     email: null,
     displayName: null,
     photoURL: null,
@@ -63,6 +64,9 @@ const authSlice = createSlice({
       action: PayloadAction<FirestorePrivateData>,
     ) => {
       state.user.firestorePrivateData = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.user.loading = action.payload;
     },
   },
 });

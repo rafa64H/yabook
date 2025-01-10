@@ -34,6 +34,7 @@ export type FirestoreData = {
 
 export type UserRedux = {
   uid: string | null;
+  loading: boolean;
   email: string | null;
   displayName: string | null;
   photoURL: string | null;

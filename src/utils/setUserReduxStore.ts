@@ -34,6 +34,7 @@ export default async function setUserReduxStore(user: User) {
     }
     const userObjRedux: UserRedux = {
       uid,
+      loading: false,
       displayName,
       email,
       photoURL,

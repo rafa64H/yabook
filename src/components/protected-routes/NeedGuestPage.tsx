@@ -13,13 +13,15 @@ function NeedGuestPage({ children }: ProtectedRouteProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await setUserReduxStore(user);
+    if (user.loading) {
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          await setUserReduxStore(user);
 
-        navigate("/");
-      }
-    });
+          navigate("/");
+        }
+      });
+    }
   }, []);
 
   return children;
