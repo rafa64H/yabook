@@ -4,6 +4,7 @@ import type {
   FirestoreData,
   FirestoreFriendsOnlyData,
 } from "../types/user-types";
+import { Link } from "react-router-dom";
 
 type Props = {
   uidUrlParam: string | null;
@@ -49,9 +50,9 @@ function ProfileInfo({
                 {user.firestoreData.birthDay} of {user.firestoreData.birthYear}
               </p>
             </div>
-            <a href="./account-settings.html" className="ml-auto">
+            <Link to="/account-settings" className="ml-auto">
               <i className="fa-solid fa-cog"></i>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

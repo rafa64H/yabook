@@ -14,17 +14,19 @@ import type {
   FirestoreFriendsOnlyData,
 } from "../types/user-types";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
+import { useParams } from "react-router-dom";
 const ProfilePage = () => {
   const user = useAppSelector((store) => store.auth.user);
+  const params = useParams();
+
+  const uidParam = params.uid;
+
   const [publicFirestoreDataOfUser, setPublicFirestoreDataOfUser] =
     React.useState<FirestoreData | undefined | null>(null);
   const [friendsOnlyFirestoreDataOfUser, setFriendsOnlyFirestoreDataOfUser] =
     React.useState<
       FirestoreFriendsOnlyData | "missing-permissions" | undefined | null
     >(null);
-
-  const url = new URL(window.location.href);
-  const uidParam = url.searchParams.get("uid");
 
   useEffect(() => {
     if (uidParam) {
@@ -69,4 +71,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage
+export default ProfilePage;
