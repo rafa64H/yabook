@@ -10,7 +10,6 @@ export type FirestorePrivateData = {
 
 export type FirestoreFriendsOnlyData = {
   uid: string | null;
-  password: string | null;
   gender: string | null;
   birthDay: string | null;
   birthMonth: string | null;

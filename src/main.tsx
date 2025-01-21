@@ -11,6 +11,7 @@ import AccountSettingsPage from "./pages/accountSettings";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NeedGuestPage from "./components/protected-routes/NeedGuestPage";
 import NeedLoginPage from "./components/protected-routes/NeedLoginPage";
+import CheckProfileUid from "./components/protected-routes/CheckProfileUid";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile/:uid",
-    element: <ProfilePage></ProfilePage>,
+    element: (
+      <CheckProfileUid>
+        <ProfilePage></ProfilePage>
+      </CheckProfileUid>
+    ),
   },
   {
     path: "/account-settings",

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "../assets/main.css";
 import Header from "../components/header";
@@ -15,41 +15,23 @@ import type {
 } from "../types/user-types";
 import { getFriendsOnlyInformationOfUser } from "../services/firebase/utils/user-related/getFriendsOnlyInfoUser";
 import { useParams } from "react-router-dom";
+import {
+  DifferentUserContext,
+  EqualUidContext,
+} from "../components/protected-routes/CheckProfileUid";
 const ProfilePage = () => {
   const user = useAppSelector((store) => store.auth.user);
   const params = useParams();
+  const equalUidToUser = useContext(EqualUidContext);
 
   const uidParam = params.uid;
 
-  const [publicFirestoreDataOfUser, setPublicFirestoreDataOfUser] =
-    React.useState<FirestoreData | undefined | null>(null);
-  const [friendsOnlyFirestoreDataOfUser, setFriendsOnlyFirestoreDataOfUser] =
-    React.useState<
-      FirestoreFriendsOnlyData | "missing-permissions" | undefined | null
-    >(null);
-
-  useEffect(() => {
-    if (uidParam) {
-      const publicData = getPublicInformationOfUser(uidParam).then(
-        (publicData) => {
-          setPublicFirestoreDataOfUser(publicData);
-          console.log(publicData);
-        },
-      );
-
-      const friendsOnlyData = getFriendsOnlyInformationOfUser(uidParam).then(
-        (friendsOnlyData) => {
-          setFriendsOnlyFirestoreDataOfUser(friendsOnlyData);
-        },
-      );
-    }
-  }, []);
+  const { publicFirestoreDataOfUser, setPublicFirestoreDataOfUser } =
+    useContext(DifferentUserContext);
 
   if (
     user.uid === null ||
-    (user.uid === uidParam &&
-      publicFirestoreDataOfUser === null &&
-      friendsOnlyFirestoreDataOfUser === null)
+    (user.uid === uidParam && publicFirestoreDataOfUser === null)
   ) {
     return (
       <>
@@ -63,9 +45,8 @@ const ProfilePage = () => {
     <>
       <Header></Header>
       <ProfileInfo
-        uidUrlParam={uidParam}
+        uidUrlParam={uidParam!}
         publicFirestoreDataOfUser={publicFirestoreDataOfUser}
-        friendsOnlyFirestoreDataOfUser={friendsOnlyFirestoreDataOfUser}
       ></ProfileInfo>
     </>
   );
