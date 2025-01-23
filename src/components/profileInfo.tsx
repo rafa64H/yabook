@@ -1,28 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type {
   FirestoreData,
   FirestoreFriendsOnlyData,
 } from "../types/user-types";
 import { Link } from "react-router-dom";
+import {
+  DifferentUserContext,
+  EqualUidContext,
+} from "./protected-routes/CheckProfileUid";
 
 type Props = {
   uidUrlParam: string | null;
-  publicFirestoreDataOfUser?: FirestoreData | null;
-  friendsOnlyFirestoreDataOfUser?:
-    | FirestoreFriendsOnlyData
-    | "missing-permissions"
-    | null;
 };
-function ProfileInfo({
-  uidUrlParam,
-  publicFirestoreDataOfUser,
-  friendsOnlyFirestoreDataOfUser,
-}: Props) {
+function ProfileInfo({ uidUrlParam }: Props) {
   const user = useAppSelector((store) => store.auth.user);
   const dispatch = useAppDispatch();
+  const equalUidToUser = useContext(EqualUidContext);
+  const { publicFirestoreDataOfUser } = useContext(DifferentUserContext);
 
-  if (user.uid === uidUrlParam) {
+  if (equalUidToUser) {
     return (
       <section className="bg-secondColor font-robotoSlab text-xl text-firstColor">
         <div className="max-h-80 w-full overflow-hidden">
@@ -63,73 +60,74 @@ function ProfileInfo({
     return <h1>Could not find user</h1>;
   }
 
-  if (friendsOnlyFirestoreDataOfUser !== "missing-permissions") {
-    return (
-      <section className="bg-secondColor font-robotoSlab text-xl text-firstColor">
-        <div className="max-h-80 w-full overflow-hidden">
-          <img
-            src={publicFirestoreDataOfUser!.backgroundImageUrl!}
-            className="w-full object-cover"
-            alt={`${publicFirestoreDataOfUser!.firstName}'s background`}
-          ></img>
-        </div>
+  // if (friendsOnlyFirestoreDataOfUser !== "missing-permissions") {
+  //   return (
+  //     <section className="bg-secondColor font-robotoSlab text-xl text-firstColor">
+  //       <div className="max-h-80 w-full overflow-hidden">
+  //         <img
+  //           src={publicFirestoreDataOfUser!.backgroundImageUrl!}
+  //           className="w-full object-cover"
+  //           alt={`${publicFirestoreDataOfUser!.firstName}'s background`}
+  //         ></img>
+  //       </div>
 
-        <div className="mx-4">
-          <div className="flex items-start gap-2">
-            <img
-              className="max-w-16 rounded-full border-2 border-transparent transition-all duration-100 hover:border-thirdColor"
-              src={publicFirestoreDataOfUser!.photoUrl!}
-              alt={`${publicFirestoreDataOfUser!.firstName}'s Profile`}
-            />
+  //       <div className="mx-4">
+  //         <div className="flex items-start gap-2">
+  //           <img
+  //             className="max-w-16 rounded-full border-2 border-transparent transition-all duration-100 hover:border-thirdColor"
+  //             src={publicFirestoreDataOfUser!.photoUrl!}
+  //             alt={`${publicFirestoreDataOfUser!.firstName}'s Profile`}
+  //           />
 
-            <div>
-              <p>{`${publicFirestoreDataOfUser!.firstName} ${publicFirestoreDataOfUser!.lastName}`}</p>
-              <p>{publicFirestoreDataOfUser!.gender}</p>
-              <p>
-                {" "}
-                Birth date: {publicFirestoreDataOfUser!.birthMonth},{" "}
-                {publicFirestoreDataOfUser!.birthDay} of{" "}
-                {publicFirestoreDataOfUser!.birthYear}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  //           <div>
+  //             <p>{`${publicFirestoreDataOfUser!.firstName} ${publicFirestoreDataOfUser!.lastName}`}</p>
+  //             <p>{publicFirestoreDataOfUser!.gender}</p>
+  //             <p>
+  //               {" "}
+  //               Birth date: {publicFirestoreDataOfUser!.birthMonth},{" "}
+  //               {publicFirestoreDataOfUser!.birthDay} of{" "}
+  //               {publicFirestoreDataOfUser!.birthYear}
+  //             </p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   );
+  // }
 
-  return (
-    <section className="bg-secondColor font-robotoSlab text-xl text-firstColor">
-      <div className="max-h-80 w-full overflow-hidden">
-        <img
-          src={publicFirestoreDataOfUser!.backgroundImageUrl!}
-          className="w-full object-cover"
-          alt={`${publicFirestoreDataOfUser!.firstName}'s background`}
-        ></img>
-      </div>
+  // if (!equalUidToUser)
+  //   return (
+  //     <section className="bg-secondColor font-robotoSlab text-xl text-firstColor">
+  //       <div className="max-h-80 w-full overflow-hidden">
+  //         <img
+  //           src={publicFirestoreDataOfUser!.backgroundImageUrl!}
+  //           className="w-full object-cover"
+  //           alt={`${publicFirestoreDataOfUser!.firstName}'s background`}
+  //         ></img>
+  //       </div>
 
-      <div className="mx-4">
-        <div className="flex items-start gap-2">
-          <img
-            className="max-w-16 rounded-full border-2 border-transparent transition-all duration-100 hover:border-thirdColor"
-            src={publicFirestoreDataOfUser!.photoUrl!}
-            alt={`${publicFirestoreDataOfUser!.firstName}'s Profile`}
-          />
+  //       <div className="mx-4">
+  //         <div className="flex items-start gap-2">
+  //           <img
+  //             className="max-w-16 rounded-full border-2 border-transparent transition-all duration-100 hover:border-thirdColor"
+  //             src={publicFirestoreDataOfUser!.photoUrl!}
+  //             alt={`${publicFirestoreDataOfUser!.firstName}'s Profile`}
+  //           />
 
-          <div>
-            <p>{`${publicFirestoreDataOfUser!.firstName} ${publicFirestoreDataOfUser!.lastName}`}</p>
-            <p>{publicFirestoreDataOfUser!.gender}</p>
-            <p>
-              {" "}
-              Birth date: {publicFirestoreDataOfUser!.birthMonth},{" "}
-              {publicFirestoreDataOfUser!.birthDay} of{" "}
-              {publicFirestoreDataOfUser!.birthYear}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  //           <div>
+  //             <p>{`${publicFirestoreDataOfUser!.firstName} ${publicFirestoreDataOfUser!.lastName}`}</p>
+  //             <p>{publicFirestoreDataOfUser!.gender}</p>
+  //             <p>
+  //               {" "}
+  //               Birth date: {publicFirestoreDataOfUser!.birthMonth},{" "}
+  //               {publicFirestoreDataOfUser!.birthDay} of{" "}
+  //               {publicFirestoreDataOfUser!.birthYear}
+  //             </p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   );
 }
 
 export default ProfileInfo;

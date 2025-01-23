@@ -49,8 +49,10 @@ function CheckProfileUid({ children }: ProtectedRouteProps) {
         if (user) {
           await setUserReduxStore(user);
 
-          if (user.uid === uidParam) setEqualUidToUser(true);
-          else setEqualUidToUser(false);
+          if (user.uid === uidParam) {
+            setEqualUidToUser(true);
+            return;
+          } else setEqualUidToUser(false);
 
           if (!uidParam) return;
           const publicData = getPublicInformationOfUser(uidParam).then(
@@ -61,6 +63,19 @@ function CheckProfileUid({ children }: ProtectedRouteProps) {
           );
         }
       });
+    } else {
+      if (user.uid === uidParam) {
+        setEqualUidToUser(true);
+        return;
+      } else setEqualUidToUser(false);
+
+      if (!uidParam) return;
+      const publicData = getPublicInformationOfUser(uidParam).then(
+        (publicData) => {
+          setPublicFirestoreDataOfUser(publicData);
+          console.log(publicData);
+        },
+      );
     }
   }, []);
 

@@ -29,25 +29,14 @@ const ProfilePage = () => {
   const { publicFirestoreDataOfUser, setPublicFirestoreDataOfUser } =
     useContext(DifferentUserContext);
 
-  if (
-    user.uid === null ||
-    (user.uid === uidParam && publicFirestoreDataOfUser === null)
-  ) {
-    return (
-      <>
-        <Header></Header>
-        <LoadingWholePage></LoadingWholePage>
-      </>
-    );
-  }
-
   return (
     <>
       <Header></Header>
-      <ProfileInfo
-        uidUrlParam={uidParam!}
-        publicFirestoreDataOfUser={publicFirestoreDataOfUser}
-      ></ProfileInfo>
+      {user.uid === null && !equalUidToUser ? (
+        <LoadingWholePage></LoadingWholePage>
+      ) : (
+        <ProfileInfo uidUrlParam={uidParam!}></ProfileInfo>
+      )}
     </>
   );
 };

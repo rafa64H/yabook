@@ -48,7 +48,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/account-settings",
-    element: <AccountSettingsPage></AccountSettingsPage>,
+    element: (
+      <NeedLoginPage>
+        <AccountSettingsPage></AccountSettingsPage>
+      </NeedLoginPage>
+    ),
   },
 ]);
 
